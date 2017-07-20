@@ -233,15 +233,6 @@ export class AddItem extends Component {
                         </Grid.Column>
                     </Grid>
                 </Form>
-                <div className="step-button-wrapper">
-                    <Button
-                        size="huge"
-                        color="blue"
-                        content="Add Another Item"
-                        className="next-step-button"
-                        onTouchTap={this.props.onAnotherItem}
-                    />
-                </div>
                 {this.renderAddItemButton()}
             </div>
         );
