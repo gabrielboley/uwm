@@ -1,0 +1,117 @@
+.add-customer-container {
+  color: #9a9a9a;
+  padding-top: 20px;
+}
+.add-customer-container .accept-email,
+.add-customer-container .accept-sms {
+  min-width: 80px;
+  margin-right: 10px !important;
+}
+.add-customer-container .ui.form .field > label {
+  color: #72787d;
+  font-size: 12px;
+  font-weight: 500;
+  padding-left: 2px;
+}
+.add-customer-container .ui.form input[type=text] {
+  height: 45px;
+}
+.add-customer-container .ui.form .state.field > .selection.dropdown {
+  height: 45px;
+}
+.notes-container textarea,
+.ui.form .note-wrapper textarea {
+  background-color: #ffffff;
+  border: solid 1px #dededf;
+  border-radius: 3px;
+  color: #9a9a9a;
+  font-size: 14px;
+  height: 375px;
+  padding: 14px;
+}
+.add-customer-container .date-picker {
+  display: flex;
+}
+.add-customer-container .date-picker .ui.selection.dropdown {
+  min-width: calc(105%);
+  text-align: center;
+}
+.add-customer-container .date-picker .ui.selection.active.dropdown,
+.add-customer-container .date-picker .ui.selection.active.dropdown .menu {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex !important;
+  -webkit-flex-flow: row wrap;
+  justify-content: flex-start;
+  text-align: center;
+  max-height: 450px;
+  width: 300px;
+  right: 80px;
+}
+.add-customer-container .date-picker .ui.selection.active.dropdown .text,
+.add-customer-container .date-picker .ui.selection.active.dropdown .menu .text {
+  width: 100%;
+}
+.add-customer-container .date-picker .ui.selection.active.dropdown:hover,
+.add-customer-container .date-picker .ui.selection.active.dropdown .menu:hover {
+  border-color: #2987cd;
+}
+.add-customer-container .date-picker .ui.selection.active.dropdown:hover .menu,
+.add-customer-container .date-picker .ui.selection.active.dropdown .menu:hover .menu {
+  border-color: #2987cd;
+}
+.add-customer-container .date-picker .month label {
+  padding-left: 10px !important;
+  width: 90px;
+}
+.add-customer-container .date-picker .month .item {
+  display: flex;
+  align-items: center;
+  height: 75px;
+  width: 25%;
+}
+.add-customer-container .date-picker .day .item {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  height: 60px;
+  min-width: 40px;
+}
+.ui.form .field > .selection.dropdown > .dropdown.icon {
+  display: none;
+}
+.ui.checkbox .box:before,
+.ui.checkbox label:before {
+  height: 37px;
+  left: initial;
+  right: 9px;
+  top: 22px;
+  width: 37px;
+}
+.ui.checkbox .box:after,
+.ui.checkbox label:after {
+  font-size: 26px;
+  height: inherit;
+  left: initial;
+  top: 32px;
+  right: 14px;
+  width: inherit;
+}
+.ui.checkbox input:checked ~ .box:after,
+.ui.checkbox input:checked ~ label:after {
+  color: #2987cd;
+}
+.accepts-sms-checkbox,
+.accepts-email-checkbox {
+  position: relative;
+}
+.accepts-sms-checkbox .ui.checkbox,
+.accepts-email-checkbox .ui.checkbox {
+  position: initial;
+}
+.accepts-sms-checkbox .ui.checkbox label,
+.accepts-email-checkbox .ui.checkbox label {
+  position: initial;
+}

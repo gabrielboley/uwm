@@ -1,0 +1,31 @@
+.login-wrapper {
+    padding: 10%;
+}
+.login-header {
+    border-bottom: 1px #c3c3c3 solid;
+    height: 60px;
+    font-size: 24px;
+    padding: 15px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100vw;
+}
+.login-wrapper .ui.huge.header {
+    padding-top: 60px;
+}
+.login-wrapper .username-wrapper {
+    height: 70px;
+    margin-bottom: 20px;
+}
+.ui.massive.buttons .button.username-button .button-sub-text-wrapper {
+    width: 100%;
+}
+.ui.massive.buttons .button.username-button .button-text {
+    width: 100%;
+}
+.ui.massive.buttons .button.username-button {
+    font-size: 16px;
+    text-align: left;
+    width: 80%;
+}

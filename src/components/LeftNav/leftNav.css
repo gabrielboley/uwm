@@ -1,0 +1,47 @@
+.left-nav-container {
+    background-color: #292a2d;
+}
+
+.left-nav-container .left-nav-wrapper {
+    align-items: flex-start;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+}
+
+.left-nav-wrapper .footer-nav.ui.buttons {
+    bottom: 10px;
+    left: 15%;
+    position: absolute;
+}
+
+.nav-menu-wrapper.ui.vertical.buttons {
+    padding-top: 20px;
+    width: 80%;
+}
+.ui.left-nav-container.uncover.sidebar.animating {
+    display: none;
+}
+
+.nav-menu-wrapper.ui.vertical.buttons .ui.button {
+    background: none;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 400;
+    height: 113px;
+    margin-bottom: 10px;
+    padding: 0;
+    text-align: center;
+}
+
+.nav-menu-wrapper.create-order .ui.button.nav-item-wrapper.create-order-wrapper,
+.nav-menu-wrapper.in-progress .ui.button.nav-item-wrapper.in-progress-wrapper,
+.nav-menu-wrapper.complete .ui.button.nav-item-wrapper.complete-wrapper {
+    background-color: #ffffff;
+    padding: 0;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 400;
+    text-align: center;
+    color: #292a2d;
+}

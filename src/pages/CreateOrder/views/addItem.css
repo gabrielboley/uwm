@@ -1,0 +1,163 @@
+.add-item-container .add-item-wrapper {
+  padding-top: 20px;
+}
+.add-item-container .add-item-wrapper .input {
+  margin-bottom: 10px;
+}
+.add-item-container .add-item-wrapper.ui.form .fields .delivery {
+  padding: 0 .5em;
+}
+.add-item-container .add-item-wrapper.ui.form .fields .delivery label {
+  font-size: 18px;
+}
+.add-item-container .add-item-wrapper.ui.form .fields .delivery label:after,
+.add-item-container .add-item-wrapper.ui.form .fields .delivery label:before {
+  height: 25px;
+  top: -5px;
+  width: 25px;
+}
+.add-item-container .add-item-wrapper.ui.form .fields .date-picker {
+  display: flex;
+  padding-left: 0;
+}
+.add-item-container .add-item-wrapper.ui.form .fields .date-picker .ui.selection.dropdown {
+  font-size: 16px;
+  min-width: 100%;
+  text-align: center;
+}
+.add-item-container .add-item-wrapper.ui.form .fields .date-picker .ui.selection.active.dropdown,
+.add-item-container .add-item-wrapper.ui.form .fields .date-picker .ui.selection.active.dropdown .menu {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex !important;
+  -webkit-flex-flow: row wrap;
+  justify-content: flex-start;
+  text-align: center;
+  max-height: 450px;
+  width: 355px;
+}
+.add-item-container .add-item-wrapper.ui.form .fields .date-picker .ui.selection.active.dropdown .text,
+.add-item-container .add-item-wrapper.ui.form .fields .date-picker .ui.selection.active.dropdown .menu .text {
+  width: 100%;
+}
+.add-item-container .add-item-wrapper.ui.form .fields .date-picker .ui.selection.active.dropdown:hover,
+.add-item-container .add-item-wrapper.ui.form .fields .date-picker .ui.selection.active.dropdown .menu:hover {
+  border-color: #2987cd;
+}
+.add-item-container .add-item-wrapper.ui.form .fields .date-picker .ui.selection.active.dropdown:hover .menu,
+.add-item-container .add-item-wrapper.ui.form .fields .date-picker .ui.selection.active.dropdown .menu:hover .menu {
+  border-color: #2987cd;
+}
+.add-item-container .add-item-wrapper.ui.form .fields .date-picker .month .item {
+  align-items: center;
+  display: flex;
+  height: 75px;
+  text-align: center;
+  width: 25%;
+}
+.add-item-container .add-item-wrapper.ui.form .fields .date-picker .day .item {
+  align-items: center;
+  display: flex;
+  flex-grow: 1;
+  height: 60px;
+  text-align: center;
+  min-width: 60px;
+}
+.add-item-container .add-item-wrapper.ui.form .fields .date-picker .day .item:last-of-type {
+  text-align: left;
+  padding-left: 25px !important;
+}
+.add-item-container .add-item-wrapper.ui.form .fields.note-wrapper {
+  margin: 0;
+  position: relative;
+}
+.add-item-container .add-item-wrapper.ui.form .fields.note-wrapper textarea:not([rows]) {
+  height: 50vh;
+  max-height: 50vh;
+}
+@media (max-width: 767px) {
+  .add-item-container .add-item-wrapper.ui.form .fields.note-wrapper textarea:not([rows]) {
+    height: 30vh;
+    max-height: 30vh;
+  }
+}
+.add-item-container .add-item-wrapper.ui.form .fields.note-wrapper .photo-upload {
+  bottom: 10px;
+  font-size: 32px;
+  height: 50px;
+  padding-top: 5%;
+  position: absolute;
+  right: 0;
+  width: 85px;
+}
+.add-item-container .add-item-wrapper.ui.form .fields.note-wrapper .photo-upload .input {
+  margin-right: 20px;
+}
+.add-item-container .add-item-wrapper.ui.form .fields.note-wrapper .photo-upload input {
+  background-color: rgba(0, 0, 0, 0);
+  bottom: -25px;
+  border: none;
+  height: 60px;
+  position: absolute;
+  right: 0;
+  width: 100px;
+  z-index: 999;
+}
+.add-item-container .add-item-wrapper.ui.form .fields.note-wrapper .photo-upload input[type=file]::-webkit-file-upload-button {
+  display: none;
+}
+.add-item-container .add-item-wrapper.ui.form .fields.note-wrapper .photo-upload:before {
+  bottom: -10px;
+  content: 'Add Photo';
+  font-size: 14px;
+  right: -15px;
+  position: absolute;
+  width: 100%;
+}
+.add-item-container .add-item-wrapper.ui.form .fields.note-wrapper .photo-upload:after {
+  bottom: 15px;
+  color: #2987cd;
+  content: "\f030";
+  font-family: Icons;
+  position: absolute;
+  right: 20px;
+}
+@media (max-width: 767px) {
+  .add-item-container .add-item-wrapper.ui.form .fields.note-wrapper .photo-upload {
+    font-size: 32px;
+    height: 30%;
+    padding-top: 5%;
+    width: 30%;
+  }
+  .add-item-container .add-item-wrapper.ui.form .fields.note-wrapper .photo-upload:before {
+    bottom: -5px;
+    right: -30px;
+  }
+  .add-item-container .add-item-wrapper.ui.form .fields.note-wrapper .photo-upload:after {
+    bottom: 20px;
+  }
+}
+.add-item-container .add-item-wrapper .ui.search .results {
+  height: 550px;
+  left: 0;
+  top: 70%;
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+}
+@media (max-width: 767px) {
+  .add-item-container .add-item-wrapper .ui.search .results {
+    height: 150px;
+    width: 96%;
+  }
+}
+.add-item-container .add-item-button {
+  position: absolute;
+  bottom: 5px;
+  right: -7px;
+  height: 50px;
+  width: 160px;
+  z-index: 100;
+}

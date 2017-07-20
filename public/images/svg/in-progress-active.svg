@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="46px" viewBox="0 0 40 46" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 5</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="19.0825195 -1.24344979e-13 40 -1.24344979e-13 40 34 12 34 12 9.296875 12 -1.24344979e-13"></polygon>
+        <polygon id="path-2" points="13.0825195 6 34 6 34 40 6 40 6 15.296875 6 6"></polygon>
+        <polygon id="path-3" points="7.08251953 12 28 12 28 46 4.79616347e-14 46 4.79616347e-14 21.296875 0 12"></polygon>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-5">
+            <g id="Group-4">
+                <g id="Rectangle-17">
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    <path stroke="#292A2D" stroke-width="1" d="M39.5,0.5 L39.5,33.5 L12.5,33.5 L12.5,9.296875 L12.5,0.5 L19.0825195,0.5 L39.5,0.5 Z"></path>
+                </g>
+                <g id="Rectangle-17">
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-2"></use>
+                    <path stroke="#292A2D" stroke-width="1" d="M33.5,6.5 L33.5,39.5 L6.5,39.5 L6.5,15.296875 L6.5,6.5 L13.0825195,6.5 L33.5,6.5 Z"></path>
+                </g>
+                <g id="Rectangle-17">
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-3"></use>
+                    <path stroke="#292A2D" stroke-width="1" d="M27.5,12.5 L27.5,45.5 L0.5,45.5 L0.5,21.296875 L0.5,12.5 L7.08251953,12.5 L27.5,12.5 Z"></path>
+                </g>
+            </g>
+            <g id="Group-6" transform="translate(14.515000, 28.845000) rotate(-270.000000) translate(-14.515000, -28.845000) translate(6.515000, 19.345000)" stroke="#292A2D">
+                <g id="Group-2" transform="translate(1.640000, 0.000000)">
+                    <path d="M8.20000004,16.7280001 L0.0820000004,0" id="Line" stroke-linecap="square"></path>
+                    <circle id="Oval-2-Copy" cx="10.8650001" cy="16.1950001" r="2.66500001"></circle>
+                </g>
+                <g id="Group-2" transform="translate(6.765000, 9.430000) scale(-1, 1) translate(-6.765000, -9.430000) ">
+                    <path d="M8.20000004,16.7280001 L0.0820000004,0" id="Line" stroke-linecap="square"></path>
+                    <circle id="Oval-2-Copy" cx="10.8650001" cy="16.1950001" r="2.66500001"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

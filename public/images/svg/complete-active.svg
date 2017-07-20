@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="34px" viewBox="0 0 28 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 7</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="7.08251953 0 28 0 28 34 0 34 0 9.296875"></polygon>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-7">
+            <g id="Group-4">
+                <g id="Rectangle-17">
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    <path stroke="#292A2D" stroke-width="1" d="M7.33017386,0.5 L27.5,0.5 L27.5,33.5 L0.5,33.5 L0.5,9.46563325 L7.33017386,0.5 Z"></path>
+                </g>
+                <polygon id="Path-2" fill="#FFFFFF" points="3.10827637 7.390625 4.33520508 5.1965332 7.44348145 5.37011719 7.36437988 7.68566895"></polygon>
+                <path d="M7.5,1.5 L7.5,9.75" id="Line" stroke="#292A2D" stroke-linecap="square"></path>
+                <path d="M0.530029297,9.76647949 L7.4300293,9.76647949" id="Line" stroke="#292A2D" stroke-linecap="square"></path>
+            </g>
+            <path d="M8.5,19.5 L12.0001786,23.0001786" id="Line" stroke="#292A2D" stroke-width="1.5" stroke-linecap="square"></path>
+            <path d="M12.5,22.5 L21.0146932,13.9853068" id="Line" stroke="#292A2D" stroke-width="1.5" stroke-linecap="square"></path>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,11 @@
+.uwm-container {
+    height: 100vh;
+}
+
+.uwm-content {
+    width: calc(100vw - 150px);
+}
+
+.uwm-content.login {
+    width: 100%;
+}

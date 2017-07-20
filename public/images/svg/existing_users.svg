@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="64px" height="64px" viewBox="0 0 64 64"><g  transform="translate(0.5, 0.5)">
+<path data-color="color-2" fill="none" stroke="#2185d0" stroke-width="1" stroke-linecap="round" stroke-miterlimit="10" d="M38,19
+c0,4.971,4.029,11,9,11s9-6.029,9-11s-4.029-9-9-9S38,14.029,38,19z" stroke-linejoin="round"/>
+<path data-cap="butt" data-color="color-2" fill="none" stroke="#2185d0" stroke-width="1" stroke-miterlimit="10" d="M48,50h14v-4.324
+c0-2.446-1.47-4.657-3.742-5.562C55.657,39.077,51.8,38,47,38s-8.657,1.077-11.258,2.113c-1.072,0.427-1.961,1.14-2.605,2.036" stroke-linejoin="round" stroke-linecap="round"/>
+<path fill="none" stroke="#2185d0" stroke-width="1" stroke-linecap="round" stroke-miterlimit="10" d="M40,56H2v-5.63
+c0-3.052,1.722-5.845,4.466-7.182C9.668,41.628,14.554,40,21,40s11.332,1.628,14.534,3.188C38.278,44.525,40,47.318,40,50.37V56z" stroke-linejoin="round"/>
+<path fill="none" stroke="#2185d0" stroke-width="1" stroke-linecap="round" stroke-miterlimit="10" d="M32,19
+c0,6.075-4.925,13-11,13s-11-6.925-11-13S14.925,8,21,8S32,12.925,32,19z" stroke-linejoin="round"/>
+</g></svg>
