@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import React, { Component } from 'react';
-import { Button, Form, Grid, Radio, Search, TextArea } from 'semantic-ui-react';
+import { Divider, Form, Icon, Grid, Radio, Search, TextArea } from 'semantic-ui-react';
 
 import './addItem.css';
 import { months, days } from '../../../consts/dates';
@@ -8,14 +8,14 @@ import { months, days } from '../../../consts/dates';
 class Input extends Component {
     render() {
         const { value, placeholder } = this.props;
+        const inputValue = value ? value : '';
         return (
             <div className="ui input">
                 <input
                     type="text"
-                    value={value}
+                    value={inputValue}
                     placeholder={placeholder}
                     className="item-type-input"
-                    disabled={value.length === 0}
                 />
             </div>
         );
@@ -41,14 +41,15 @@ export class AddItem extends Component {
     resetComponent = () => this.setState({ isLoading: false, results: [], value: '' });
 
     handleResultSelect = (e, item) => {
+        this.props.handleAddItem(item.result);
         this.setState({
-            item,
-            value: item.name
+            item: item.result,
+            value: item.result.name
         });
     }
 
     handleSearchChange = (e, value) => {
-        this.setState({ isLoading: true, value });
+        this.setState({ isLoading: true, value: value.value });
 
         setTimeout(() => {
             if (this.state.value.length < 1) {
@@ -60,7 +61,7 @@ export class AddItem extends Component {
 
             this.setState({
                 isLoading: false,
-                results: _.filter(this.props.products, isMatch),
+                results: _.filter(this.props.products, isMatch)
             })
         }, 500);
     }
@@ -99,22 +100,61 @@ export class AddItem extends Component {
         );
     }
 
-    renderAddItemButton = () => {
-        const { item } = this.state;
-        if (!item) {
-             return null;
+    // renderAddItemButton = () => {
+    //     const { item } = this.state;
+    //     if (!item) {
+    //          return null;
+    //     }
+    //     return (
+    //         <div className="add-item-button-wrapper">
+    //             <Button
+    //                 size="huge"
+    //                 content="Add Another"
+    //                 className="add-another"
+    //                 onTouchTap={this.props.onAnotherItem}
+    //             />
+    //             <Button
+    //                 size="huge"
+    //                 primary
+    //                 icon="arrow right"
+    //                 content="Add Item"
+    //                 className="add-item-button"
+    //                 onTouchTap={this.props.onToReviewItems}
+    //             />
+    //         </div>
+    //     )
+    // }
+
+    renderDivider = () => {
+        const { index } = this.props;
+        if (index === 0) {
+            return null;
+        }
+        return <Divider />;
+    }
+
+    renderDeleteButton = () => {
+        const { index } = this.props;
+        if (index === 0) {
+            return null;
+        }
+        const styles = {
+            width: '100%',
+            textAlign: 'right'
         }
         return (
-            <div className="add-item-button">
-                <Button
-                    size="huge"
-                    primary
-                    content="Add Item"
-                    className="add-item-button"
-                    onTouchTap={() => this.props.handleAddItem(item)}
+            <div
+                style={styles}
+                className="item-actions-header"
+            >
+                <Icon
+                    color="red"
+                    size="large"
+                    name="window close"
+                    onTouchTap={() => this.props.handleRemoveItem(index)}
                 />
             </div>
-        )
+        );
     }
 
     renderPickupDate = () => {
@@ -181,6 +221,8 @@ export class AddItem extends Component {
 
         return (
             <div className="add-item-container">
+                {this.renderDivider()}
+                {this.renderDeleteButton()}
                 <Form className="add-item-wrapper">
                     <Grid stackable>
                         <Grid.Column width={10}>
@@ -233,7 +275,6 @@ export class AddItem extends Component {
                         </Grid.Column>
                     </Grid>
                 </Form>
-                {this.renderAddItemButton()}
             </div>
         );
     }

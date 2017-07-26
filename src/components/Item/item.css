@@ -1,0 +1,59 @@
+.item-wrapper {
+    margin-bottom: 15px;
+}
+.item-wrapper .item-details {
+    background-color: #f1f1f1;
+    border: solid 1px #c1c1c1;
+    display: flex;
+    height: 162px;
+    padding: 18px;
+    width: 100%;
+}
+.item-wrapper .item-details .item-image {
+    width: 124px;
+    height: 124px;
+    border: solid 1px #b8b8b8;
+    overflow: hidden;
+}
+.item-wrapper .item-details .item-image img {
+    width: 100%;
+}
+.item-wrapper .item-details .item-info {
+    width: 395px;
+    height: 124px;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.44;
+    letter-spacing: normal;
+    color: #343434;
+    margin-left: 15px;
+}
+.item-wrapper .item-details .item-info .text {
+    font-weight: bold;
+}
+.item-wrapper .item-actions {
+    height: 38px;
+    background-color: #ffffff;
+    border-left: solid 1px #c0c0c0;
+    border-right: solid 1px #c0c0c0;
+    border-bottom: solid 1px #c0c0c0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.item-wrapper .item-actions .edit-item {
+    width: 27px;
+    height: 18px;
+    font-size: 16px;
+    color: #00aeef;
+    margin-right: 15px;
+}
+.item-wrapper .item-actions .delete-item {
+    width: 100px;
+    height: 18px;
+    font-size: 16px;
+    color: #ff5555;
+    margin-right: 15px;
+}

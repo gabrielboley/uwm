@@ -1,6 +1,9 @@
 .add-item-container .add-item-wrapper {
   padding-top: 20px;
 }
+.add-item-container .ui.divider {
+  margin-top: 30px;
+}
 .add-item-container .add-item-wrapper .input {
   margin-bottom: 10px;
 }
@@ -32,6 +35,7 @@
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex !important;
+  flex-flow: row wrap;
   -webkit-flex-flow: row wrap;
   justify-content: flex-start;
   text-align: center;
@@ -153,11 +157,27 @@
     width: 96%;
   }
 }
-.add-item-container .add-item-button {
+.add-item-button-wrapper .add-another {
+  width: 48%;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.add-item-button-wrapper .add-item-button {
+  width: 48%;
+}
+.add-item-button-wrapper .add-item-button .right.icon {
   position: absolute;
-  bottom: 5px;
-  right: -7px;
-  height: 50px;
-  width: 160px;
+  right: 30px;
+  opacity: 1;
+  top: 35px;
+}
+.add-item-button-wrapper {
+  /*bottom: 10px;*/
+  /*height: 50px;*/
+  /*right: 10px;*/
+  padding-left: 100px;
+  /*position: absolute;*/
+  float: right;
+  width: 80%;
   z-index: 100;
 }

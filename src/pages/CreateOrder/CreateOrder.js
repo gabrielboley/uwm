@@ -5,6 +5,7 @@ import { Button, Header } from 'semantic-ui-react';
 import './createOrder.css';
 import { AddItem } from './views/AddItem';
 import { guestUser } from '../../consts/guest';
+import { ReviewOrder } from './views/ReviewOrder';
 import { CustomerType } from './views/CustomerSelection';
 import { ConfirmCustomer } from './views/ConfirmCustomer';
 import { AddNewCustomer } from '../../components/AddNewCustomer';
@@ -13,7 +14,7 @@ import { toggleGuest, updateCustomer, removeActiveCustomer } from './createOrder
 
 class CreateOrder extends Component {
     state = {
-        itemsToAdd: 1,
+        itemsToAdd: [0],
         currentItems: [],
         currentSearch: '',
         view: 'customer-selection'
@@ -22,10 +23,7 @@ class CreateOrder extends Component {
     handleAddItem = (item) => {
         const { currentItems } = this.state;
         currentItems.push(item);
-        this.setState({
-            view: 'review-order',
-            currentItems
-        });
+        this.setState({ currentItems });
     }
 
     onAddItemClick = () => {
@@ -33,6 +31,8 @@ class CreateOrder extends Component {
             view: 'add-item'
         });
     }
+
+    onToReviewItems = () => this.setState({ view: 'review-order' });
 
     onClearActiveUser = () => {
         this.props.dispatch(removeActiveCustomer());
@@ -60,9 +60,16 @@ class CreateOrder extends Component {
     }
 
     onAnotherItem = () => {
-        this.setState((previousState) => {
-            previousState.itemsToAdd += 1
-        });
+        const { itemsToAdd } = this.state;
+        const currentItems = itemsToAdd.length;
+        itemsToAdd.push(currentItems);
+        this.setState({ itemsToAdd });
+    }
+
+    onRemoveItem = (itemIndex) => {
+        const { itemsToAdd } = this.state;
+        const newItems = itemsToAdd.filter((item, index) => (index !== itemIndex));
+        this.setState({ itemsToAdd: newItems });
     }
 
     onUserSelection = (user) => {
@@ -82,18 +89,40 @@ class CreateOrder extends Component {
 
     renderAddItems = () => {
         const { itemsToAdd } = this.state;
-        const markup = [];
-        for(let i = 0; i < itemsToAdd; i += 1) {
-            markup.push(
-                <AddItem
-                    key={i}
-                    products={this.props.products}
-                    onAnotherItem={this.onAnotherItem}
-                    handleAddItem={this.handleAddItem}
-                />
-            );
+        return itemsToAdd.map((item, index) => (
+            <AddItem
+                key={index}
+                index={index}
+                products={this.props.products}
+                handleAddItem={this.handleAddItem}
+                handleRemoveItem={this.onRemoveItem}
+            />
+        ));
+    }
+
+    renderAddItemButton = () => {
+        const { currentItems } = this.state;
+        if (!currentItems.length) {
+            return null;
         }
-        return markup;
+        return (
+            <div className="add-item-button-wrapper">
+                <Button
+                    size="huge"
+                    content="Add Another"
+                    className="add-another"
+                    onTouchTap={this.onAnotherItem}
+                />
+                <Button
+                    size="huge"
+                    primary
+                    icon="arrow right"
+                    content="Add Item"
+                    className="add-item-button"
+                    onTouchTap={this.onToReviewItems}
+                />
+            </div>
+        )
     }
 
     renderBackButton = () => {
@@ -160,6 +189,15 @@ class CreateOrder extends Component {
                     />
                 );
             }
+            case 'review-order': {
+                return (
+                    <ReviewOrder
+                        items={this.state.currentItems}
+                        customer={this.props.activeCustomer}
+                        onClearActiveUser={this.onClearActiveUser}
+                    />
+                );
+            }
             default: {
                 return null;
             }
@@ -179,6 +217,7 @@ class CreateOrder extends Component {
                 </div>
                 <div className="footer">
                     {this.renderBackButton()}
+                    {this.renderAddItemButton()}
                 </div>
             </div>
         );

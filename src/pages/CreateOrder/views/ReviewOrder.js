@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Button } from 'semantic-ui-react';
 
-import'./reviewOrder.less';
-import { Item } from '../Item';
+import'./reviewOrder.css';
+import { Item } from '../../../components/Item';
 
 export class ReviewOrder extends Component {
     renderCustomer = () => {
@@ -24,7 +24,8 @@ export class ReviewOrder extends Component {
 
     renderItems = () => (
         this.props.items.map((item, index) => (
-            <Item key={`item-${item.name}-${item.id}-${index}`} {...item} />
+            <Item
+                key={`item-${item.name}-${item.id}-${index}`} {...item} />
         ))
     )
 

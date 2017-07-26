@@ -26,7 +26,7 @@
   border-radius: 3px;
   color: #9a9a9a;
   font-size: 14px;
-  height: 375px;
+  height: 275px;
   padding: 14px;
 }
 .add-customer-container .date-picker {
@@ -43,6 +43,7 @@
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex !important;
+  flex-flow: row wrap;
   -webkit-flex-flow: row wrap;
   justify-content: flex-start;
   text-align: center;

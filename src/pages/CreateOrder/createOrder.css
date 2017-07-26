@@ -5,8 +5,22 @@
     padding: 20px;
 }
 
+.create-order-content .ui.dividing.header {
+    background-color: #ffffff;
+    height: 60px;
+    padding-top: 20px;
+    position: absolute;
+    top: 0;
+    width: 75vw;
+    z-index: 10;
+}
 .create-order-content {
+    height: 90vh;
     order: 1;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 35px;
+    padding-right: 15px;
     width: 100%;
 }
 
@@ -63,5 +77,10 @@
     height: 72px;
     order: 1;
     padding-top: 20px;
+    position: relative;
     width: 100%;
+}
+.footer .back-button-wrapper {
+    float: left;
+    width: 20%;
 }
