@@ -4,10 +4,7 @@ import { Button, Card, Icon, List } from 'semantic-ui-react';
 import './confirmCustomer.css';
 
 export const ConfirmCustomer = ({activeCustomer, onAddItemClick, onClearActiveUser }) => (
-    <div
-        style={{paddingLeft: '10px'}}
-        className="active-customer-wrapper"
-    >
+    <div className="active-customer-wrapper">
         <Card
             fluid
             color="teal"
@@ -34,7 +31,7 @@ export const ConfirmCustomer = ({activeCustomer, onAddItemClick, onClearActiveUs
                 color="blue"
                 content={`Create New Order for ${activeCustomer.name}`}
                 className="next-step-button"
-                onTouchTap={event => onAddItemClick(true, event)}
+                onTouchTap={() => onAddItemClick(true)}
             />
         </div>
     </div>

@@ -1,7 +1,7 @@
 import keygen from 'keygen';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { Button, Radio, Header } from 'semantic-ui-react';
+import { Button, Checkbox, Header } from 'semantic-ui-react';
 
 import './createOrder.css';
 import { AddItem } from './views/AddItem';
@@ -18,8 +18,8 @@ class CreateOrder extends Component {
         itemsToAdd: [keygen.hex(keygen.small)],
         currentItems: {},
         currentSearch: '',
-        shipOrPickupAll: '',
-        view: 'customer-selection'
+        view: 'customer-selection',
+        shipAll: false
     }
 
     handleAddItem = (item, key) => {
@@ -28,9 +28,7 @@ class CreateOrder extends Component {
         this.setState({ currentItems });
     }
 
-    onAddItemClick = (shouldReset, event) => {
-        event.preventDefault();
-        event.stopPropagation();
+    onAddItemClick = (shouldReset) => {
         const view = 'add-item';
         const itemsToAdd = [keygen.hex(keygen.small)];
         let { currentItems } = this.state;
@@ -97,14 +95,6 @@ class CreateOrder extends Component {
         });
     }
 
-    onShipOrPickupAll = (e, { value }) => {
-        const { shipOrPickupAll } = this.state;
-        const newValue = shipOrPickupAll === value ? '' : value;
-        this.setState({
-            shipOrPickupAll: newValue
-        });
-    }
-
     onNewUserClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -123,7 +113,6 @@ class CreateOrder extends Component {
                 handleAddItem={this.handleAddItem}
                 handleRemoveItem={this.onRemoveItem}
                 currentItems={this.state.currentItems}
-                shipOrPickupAll={this.state.shipOrPickupAll.length > 0}
             />
         ))
     )
@@ -180,16 +169,11 @@ class CreateOrder extends Component {
     }
 
     renderContent = () => {
-        const { view, shipOrPickupAll } = this.state;
+        const { view } = this.state;
         const styles = {
-            checkboxWrapper: {
+            checkbox: {
+                paddingLeft: '10px',
                 paddingTop: '20px'
-            },
-            radio1: {
-                marginLeft: '10px'
-            },
-            radio2: {
-                marginLeft: '20px'
             },
             text: {
                 fontSize: '16px',
@@ -202,25 +186,11 @@ class CreateOrder extends Component {
                 return (
                     <div className="add-items-wrapper">
                         <div
-                            style={styles.checkboxWrapper}
+                            style={styles.checkbox}
                             className="checkbox-wrapper"
                         >
-                            <Radio
-                                toggle
-                                value="ship"
-                                style={styles.radio1}
-                                onChange={this.onShipOrPickupAll}
-                                checked={shipOrPickupAll === 'ship'}
-                            />
+                            <Checkbox toggle/>
                             <span style={styles.text}>Ship All</span>
-                            <Radio
-                                toggle
-                                value="pickup"
-                                style={styles.radio2}
-                                onChange={this.onShipOrPickupAll}
-                                checked={shipOrPickupAll === 'pickup'}
-                            />
-                            <span style={styles.text}>Pickup All</span>
                         </div>
                         {this.renderAddItems()}
                     </div>

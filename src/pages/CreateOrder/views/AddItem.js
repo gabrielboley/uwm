@@ -32,7 +32,6 @@ export class AddItem extends Component {
             item: null,
             imagePreviewUrl: [],
             results: [],
-            notes: '',
             value: ""
         };
     }
@@ -45,8 +44,7 @@ export class AddItem extends Component {
 
     handleImageChange = (e) => {
         e.preventDefault();
-        const { index } = this.props;
-        const { images, imagePreviewUrl, item } = this.state;
+        const { images, imagePreviewUrl } = this.state;
         const newImages = e.target.files;
 
         Object.keys(newImages).forEach(img => {
@@ -63,16 +61,10 @@ export class AddItem extends Component {
 
             reader.readAsDataURL(newImages[img]);
         });
-        document.getElementById(`file-${index}`).value = '';
-        item.images = imagePreviewUrl;
-        this.props.handleAddItem(item, index);
     }
 
-    handleRemoveImage = (e, imageToRemove, urlToRemove) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const { index } = this.props;
-        const { images, imagePreviewUrl, item } = this.state;
+    handleRemoveImage = (imageToRemove, urlToRemove) => {
+        const { images, imagePreviewUrl } = this.state;
         const newImages = images.filter(image => (image !== imageToRemove));
         const newImageUrls = imagePreviewUrl.filter(url => (url !== urlToRemove));
 
@@ -80,8 +72,6 @@ export class AddItem extends Component {
             images: newImages,
             imagePreviewUrl: newImageUrls
         });
-        item.images = newImageUrls;
-        this.props.handleAddItem(item, index);
     }
 
     handleResultSelect = (e, item, index) => {
@@ -111,14 +101,6 @@ export class AddItem extends Component {
     }
 
     handleDeliveryChange =(e, { value }) => this.setState({ delivery: value });
-
-    handleNotes = (e, { value }) => {
-        const { index } = this.props;
-        const { item } = this.state;
-
-        item.notes = value;
-        this.props.handleAddItem(item, index);
-    };
 
     renderResults = (result) => (
         <div
@@ -202,14 +184,13 @@ export class AddItem extends Component {
                 width: '70px'
             }
         };
-        console.log('images', images); // eslint-disable-line no-console
         return (
             <Grid.Column width={16}>
                 {images.map((image, index) => (
                     <div
                         key={`${image.name}`}
                         style={style.imgContainer}
-                        onTouchTap={e => this.handleRemoveImage(e, image, imagePreviewUrl[index])}
+                        onTouchTap={() => this.handleRemoveImage(image, imagePreviewUrl[index])}
                         className="image-preview-wrapper"
                     >
                         {imagePreviewUrl[index]
@@ -288,7 +269,7 @@ export class AddItem extends Component {
     }
 
     render (){
-        const { index, shipOrPickupAll } = this.props;
+        const { index } = this.props;
         const { isLoading, value, results, item } = this.state;
 
         return (
@@ -328,25 +309,19 @@ export class AddItem extends Component {
                             <Form.Group>
                                 {this.renderAlterationInput()}
                             </Form.Group>
-                            {!shipOrPickupAll && [
-                                <Form.Group key={`shipping-${index}`}>
-                                    {this.renderShipping()}
-                                </Form.Group>,
-                                <Form.Group key={`pickup-${index}`}>
-                                    {this.renderPickupDate()}
-                                </Form.Group>
-                            ]}
+                            <Form.Group>
+                                {this.renderShipping()}
+                            </Form.Group>
+                            <Form.Group>
+                                {this.renderPickupDate()}
+                            </Form.Group>
                         </Grid.Column>
                         <Grid.Column width={6}>
                             <Form.Group className="note-wrapper">
-                                <TextArea
-                                    placeholder="Notes"
-                                    onChange={this.handleNotes}
-                                />
+                                <TextArea placeholder="Notes" />
                                 <Form.Input
                                     multiple
                                     type="file"
-                                    id={`file-${index}`}
                                     placeholder="Add Photo"
                                     onChange={(e) => this.handleImageChange(e)}
                                     className={`photo-upload ${item ? '' : 'disabled'}`}
