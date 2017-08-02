@@ -1,6 +1,7 @@
+import keygen from 'keygen';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { Button, Header } from 'semantic-ui-react';
+import { Button, Checkbox, Header } from 'semantic-ui-react';
 
 import './createOrder.css';
 import { AddItem } from './views/AddItem';
@@ -14,22 +15,27 @@ import { toggleGuest, updateCustomer, removeActiveCustomer } from './createOrder
 
 class CreateOrder extends Component {
     state = {
-        itemsToAdd: [0],
-        currentItems: [],
+        itemsToAdd: [keygen.hex(keygen.small)],
+        currentItems: {},
         currentSearch: '',
-        view: 'customer-selection'
+        view: 'customer-selection',
+        shipAll: false
     }
 
-    handleAddItem = (item) => {
+    handleAddItem = (item, key) => {
         const { currentItems } = this.state;
-        currentItems.push(item);
+        currentItems[key] = item;
         this.setState({ currentItems });
     }
 
-    onAddItemClick = () => {
-        this.setState({
-            view: 'add-item'
-        });
+    onAddItemClick = (shouldReset) => {
+        const view = 'add-item';
+        const itemsToAdd = [keygen.hex(keygen.small)];
+        let { currentItems } = this.state;
+        if (shouldReset) {
+            currentItems = {};
+        }
+        this.setState({ currentItems, itemsToAdd, view });
     }
 
     onToReviewItems = () => this.setState({ view: 'review-order' });
@@ -61,15 +67,25 @@ class CreateOrder extends Component {
 
     onAnotherItem = () => {
         const { itemsToAdd } = this.state;
-        const currentItems = itemsToAdd.length;
-        itemsToAdd.push(currentItems);
+        itemsToAdd.push(keygen.hex(keygen.small));
         this.setState({ itemsToAdd });
     }
 
     onRemoveItem = (itemIndex) => {
-        const { itemsToAdd } = this.state;
-        const newItems = itemsToAdd.filter((item, index) => (index !== itemIndex));
-        this.setState({ itemsToAdd: newItems });
+        let { view } = this.state;
+        const { currentItems, itemsToAdd } = this.state;
+        let newItems = itemsToAdd.filter((item) => item !== itemIndex);
+
+        delete currentItems[itemIndex];
+        if (Object.keys(currentItems).length === 0) {
+            view = 'add-item';
+            newItems = [ keygen.hex(keygen.small) ];
+        }
+        this.setState({
+            view,
+            currentItems,
+            itemsToAdd: newItems
+        });
     }
 
     onUserSelection = (user) => {
@@ -87,22 +103,23 @@ class CreateOrder extends Component {
         });
     }
 
-    renderAddItems = () => {
-        const { itemsToAdd } = this.state;
-        return itemsToAdd.map((item, index) => (
+    renderAddItems = () => (
+        this.state.itemsToAdd.map((itemIndex, index) => (
             <AddItem
-                key={index}
-                index={index}
+                key={itemIndex}
+                index={itemIndex}
+                isFirst={index === 0}
                 products={this.props.products}
                 handleAddItem={this.handleAddItem}
                 handleRemoveItem={this.onRemoveItem}
+                currentItems={this.state.currentItems}
             />
-        ));
-    }
+        ))
+    )
 
     renderAddItemButton = () => {
-        const { currentItems } = this.state;
-        if (!currentItems.length) {
+        const { currentItems, view } = this.state;
+        if (!Object.keys(currentItems).length || view !== 'add-item' ) {
             return null;
         }
         return (
@@ -153,10 +170,31 @@ class CreateOrder extends Component {
 
     renderContent = () => {
         const { view } = this.state;
-
+        const styles = {
+            checkbox: {
+                paddingLeft: '10px',
+                paddingTop: '20px'
+            },
+            text: {
+                fontSize: '16px',
+                marginLeft: '10px',
+                verticalAlign: 'top'
+            }
+        };
         switch (view) {
             case 'add-item': {
-                return this.renderAddItems();
+                return (
+                    <div className="add-items-wrapper">
+                        <div
+                            style={styles.checkbox}
+                            className="checkbox-wrapper"
+                        >
+                            <Checkbox toggle/>
+                            <span style={styles.text}>Ship All</span>
+                        </div>
+                        {this.renderAddItems()}
+                    </div>
+                );
             }
             case 'create-new': {
                 return <AddNewCustomer />;
@@ -194,6 +232,8 @@ class CreateOrder extends Component {
                     <ReviewOrder
                         items={this.state.currentItems}
                         customer={this.props.activeCustomer}
+                        handleRemoveItem={this.onRemoveItem}
+                        onAddAnotherItem={this.onAddItemClick}
                         onClearActiveUser={this.onClearActiveUser}
                     />
                 );

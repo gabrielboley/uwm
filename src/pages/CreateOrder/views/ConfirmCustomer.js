@@ -31,7 +31,7 @@ export const ConfirmCustomer = ({activeCustomer, onAddItemClick, onClearActiveUs
                 color="blue"
                 content={`Create New Order for ${activeCustomer.name}`}
                 className="next-step-button"
-                onTouchTap={onAddItemClick}
+                onTouchTap={() => onAddItemClick(true)}
             />
         </div>
     </div>

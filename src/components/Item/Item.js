@@ -46,7 +46,10 @@ export class Item extends Component {
                     >
                         Edit
                     </div>
-                    <div className="delete-item">
+                    <div
+                        className="delete-item"
+                        onTouchTap={() => this.props.handleRemoveItem(this.props.index)}
+                    >
                         Delete Item
                     </div>
                 </div>

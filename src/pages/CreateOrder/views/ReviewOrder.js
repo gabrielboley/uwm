@@ -22,21 +22,32 @@ export class ReviewOrder extends Component {
         );
     }
 
-    renderItems = () => (
-        this.props.items.map((item, index) => (
-            <Item
-                key={`item-${item.name}-${item.id}-${index}`} {...item} />
-        ))
-    )
+    renderItems = () => {
+        const { items } = this.props;
+        return Object.keys(this.props.items).map((itemKey, index) => {
+            const item = items[itemKey];
+            return (
+                <Item
+                    {...item}
+                    index={itemKey}
+                    handleRemoveItem={this.props.handleRemoveItem}
+                    key={`item-${item.name}-${item.id}-${index}`}
+                />
+            );
+        })
+    }
 
     addItemButton = () => (
-        <div className="add-item-wrapper">
+        <div
+            className="add-item-wrapper"
+            style={{ marginBottom: '20px' }}
+        >
             <Button
                 size="huge"
                 primary
                 content="Add Another Item"
                 className="next-step-button"
-                onTouchTap={this.props.onAddAnotherItem}
+                onTouchTap={() => this.props.onAddAnotherItem(false)}
             />
         </div>
     )

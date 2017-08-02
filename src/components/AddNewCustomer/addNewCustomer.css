@@ -83,8 +83,8 @@
 .ui.form .field > .selection.dropdown > .dropdown.icon {
   display: none;
 }
-.ui.checkbox .box:before,
-.ui.checkbox label:before {
+.add-customer-container .ui.checkbox .box:before,
+.add-customer-container .ui.checkbox label:before {
   height: 37px;
   left: initial;
   right: 9px;

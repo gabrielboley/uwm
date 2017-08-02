@@ -29,6 +29,6 @@
 .review-order-wrapper .complete-order-wrapper {
   position: absolute;
   bottom: 10px;
-  right: -5px;
+  right: 20px;
   z-index: 100;
 }

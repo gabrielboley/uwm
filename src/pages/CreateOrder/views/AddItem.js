@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import React, { Component } from 'react';
-import { Divider, Form, Icon, Grid, Radio, Search, TextArea } from 'semantic-ui-react';
+import { Divider, Form, Icon, Grid, Loader, Radio, Search, TextArea } from 'semantic-ui-react';
 
 import './addItem.css';
 import { months, days } from '../../../consts/dates';
@@ -27,8 +27,10 @@ export class AddItem extends Component {
         super(props);
         this.state = {
             delivery: '1',
+            images: [],
             isLoading: false,
             item: null,
+            imagePreviewUrl: [],
             results: [],
             value: ""
         };
@@ -40,8 +42,40 @@ export class AddItem extends Component {
 
     resetComponent = () => this.setState({ isLoading: false, results: [], value: '' });
 
-    handleResultSelect = (e, item) => {
-        this.props.handleAddItem(item.result);
+    handleImageChange = (e) => {
+        e.preventDefault();
+        const { images, imagePreviewUrl } = this.state;
+        const newImages = e.target.files;
+
+        Object.keys(newImages).forEach(img => {
+            const reader = new FileReader();
+            images.push(newImages[img]);
+
+            reader.onloadend = () => {
+                imagePreviewUrl.push(reader.result);
+                this.setState({
+                    images,
+                    imagePreviewUrl
+                });
+            }
+
+            reader.readAsDataURL(newImages[img]);
+        });
+    }
+
+    handleRemoveImage = (imageToRemove, urlToRemove) => {
+        const { images, imagePreviewUrl } = this.state;
+        const newImages = images.filter(image => (image !== imageToRemove));
+        const newImageUrls = imagePreviewUrl.filter(url => (url !== urlToRemove));
+
+        this.setState({
+            images: newImages,
+            imagePreviewUrl: newImageUrls
+        });
+    }
+
+    handleResultSelect = (e, item, index) => {
+        this.props.handleAddItem(item.result, index);
         this.setState({
             item: item.result,
             value: item.result.name
@@ -100,42 +134,17 @@ export class AddItem extends Component {
         );
     }
 
-    // renderAddItemButton = () => {
-    //     const { item } = this.state;
-    //     if (!item) {
-    //          return null;
-    //     }
-    //     return (
-    //         <div className="add-item-button-wrapper">
-    //             <Button
-    //                 size="huge"
-    //                 content="Add Another"
-    //                 className="add-another"
-    //                 onTouchTap={this.props.onAnotherItem}
-    //             />
-    //             <Button
-    //                 size="huge"
-    //                 primary
-    //                 icon="arrow right"
-    //                 content="Add Item"
-    //                 className="add-item-button"
-    //                 onTouchTap={this.props.onToReviewItems}
-    //             />
-    //         </div>
-    //     )
-    // }
-
     renderDivider = () => {
-        const { index } = this.props;
-        if (index === 0) {
+        const { isFirst } = this.props;
+        if (isFirst) {
             return null;
         }
         return <Divider />;
     }
 
     renderDeleteButton = () => {
-        const { index } = this.props;
-        if (index === 0) {
+        const { isFirst, index } = this.props;
+        if (isFirst) {
             return null;
         }
         const styles = {
@@ -154,6 +163,49 @@ export class AddItem extends Component {
                     onTouchTap={() => this.props.handleRemoveItem(index)}
                 />
             </div>
+        );
+    }
+
+    renderImages = () => {
+        const { images, imagePreviewUrl } = this.state;
+
+        if (!images.length) {
+            return null;
+        }
+
+        const style = {
+            img: {
+                maxHeight: '100%',
+                maxWidth: '70px'
+            },
+            imgContainer: {
+                float: 'left',
+                marginRight: '10px',
+                width: '70px'
+            }
+        };
+        return (
+            <Grid.Column width={16}>
+                {images.map((image, index) => (
+                    <div
+                        key={`${image.name}`}
+                        style={style.imgContainer}
+                        onTouchTap={() => this.handleRemoveImage(image, imagePreviewUrl[index])}
+                        className="image-preview-wrapper"
+                    >
+                        {imagePreviewUrl[index]
+                            ? (
+                                <img
+                                    alt={image.name}
+                                    style={style.img}
+                                    src={imagePreviewUrl[index]}
+                                />
+                            )
+                            : <Loader active inline />
+                        }
+                    </div>
+                ))}
+            </Grid.Column>
         );
     }
 
@@ -217,7 +269,8 @@ export class AddItem extends Component {
     }
 
     render (){
-        const { isLoading, value, results } = this.state;
+        const { index } = this.props;
+        const { isLoading, value, results, item } = this.state;
 
         return (
             <div className="add-item-container">
@@ -235,7 +288,7 @@ export class AddItem extends Component {
                                     placeholder='Item Name'
                                     className="sixteen wide field"
                                     resultRenderer={this.renderResults}
-                                    onResultSelect={this.handleResultSelect}
+                                    onResultSelect={(e, item) => this.handleResultSelect(e, item, index)}
                                     onSearchChange={this.handleSearchChange}
                                 />
                             </Form.Group>
@@ -267,12 +320,15 @@ export class AddItem extends Component {
                             <Form.Group className="note-wrapper">
                                 <TextArea placeholder="Notes" />
                                 <Form.Input
+                                    multiple
                                     type="file"
                                     placeholder="Add Photo"
-                                    className="photo-upload"
+                                    onChange={(e) => this.handleImageChange(e)}
+                                    className={`photo-upload ${item ? '' : 'disabled'}`}
                                 />
                             </Form.Group>
                         </Grid.Column>
+                    {this.renderImages()}
                     </Grid>
                 </Form>
             </div>
