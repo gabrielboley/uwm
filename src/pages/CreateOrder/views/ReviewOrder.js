@@ -47,7 +47,7 @@ export class ReviewOrder extends Component {
                 primary
                 content="Add Another Item"
                 className="next-step-button"
-                onTouchTap={() => this.props.onAddAnotherItem(false)}
+                onTouchTap={e => this.props.onAddAnotherItem(false, e)}
             />
         </div>
     )
