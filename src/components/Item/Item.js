@@ -34,9 +34,11 @@ export class Item extends Component {
                             <span className="item-price-label">Price: </span>
                             <span className="item-price-text text">{this.props.price}</span>
                         </div>
-                        <div className="item-alterations">
-                            <span className="item-alterations-label">Alterations:</span>
-                        </div>
+                        {this.props.canBeAltered &&
+                            <div className="item-alterations">
+                                <span className="item-alterations-label">Alterations:</span>
+                            </div>
+                        }
                     </div>
                 </div>
                 <div className="item-actions">
