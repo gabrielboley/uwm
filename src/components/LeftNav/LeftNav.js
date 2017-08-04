@@ -77,7 +77,26 @@ export class LeftNav extends Component {
                 <Button.Group
                     toggle
                     className="footer-nav"
+                    style={{ flexDirection: 'column' }}
                 >
+                    <Button
+                        basic
+                        inverted
+                        className="nav-item-wrapper settings"
+                        onTouchTap={e => this.onPageClick('settings')}
+                        style={{
+                            height: '75px',
+                            marginBottom: '20px',
+                            padding: '10px'
+                        }}
+                    >
+                        <Icon
+                            size="big"
+                            name="settings"
+                            style={{ marginBottom: '10px', marginRight: '0' }}
+                        />
+                        <div className="settings-text">Settings</div>
+                    </Button>
                     <Modal
                         basic
                         size='small'
@@ -88,6 +107,7 @@ export class LeftNav extends Component {
                                 inverted
                                 icon="log out"
                                 content="Logout"
+                                style={{ height: '75px' }}
                                 onTouchTap={this.handleOpenLogoutModal}
                             />
                         }

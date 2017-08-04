@@ -1,0 +1,43 @@
+.edit-user-wrapper {
+    padding: 20px;
+    width: 100%;
+}
+
+.ui.header.back-to-breadcrumb {
+    margin-top: -20px;
+    margin-bottom: 50px;
+}
+
+.edit-user-wrapper .field-input.user-password i {
+    vertical-align: super;
+}
+.edit-user-wrapper .field-input.user-password span {
+    font-size: 32px;
+    vertical-align: text-bottom;
+}
+.edit-user-wrapper .field-input {
+    height: 41px;
+    font-size: 16px;
+    margin-bottom: 14px;
+    padding-left: 19px;
+    padding-top: 10px;
+}
+.edit-user-wrapper .field-input-wrapper {
+    margin-bottom: 10px;
+}
+
+.password-wrapper {
+    padding-top: 50px;
+}
+.password-wrapper .password-text {
+    min-height: 150px;
+}
+.password-wrapper .password-header {
+    text-align: center;
+}
+.password-wrapper .confirm-password {
+    color: #fbbd08;
+}
+.password-wrapper .password-error {
+    color: #db2828;
+}

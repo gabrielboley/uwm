@@ -1,0 +1,32 @@
+.settings-container {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    height: 100vh;
+    padding: 20px;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+.settings-content {
+    padding-top: 120px;
+    width: 100%;
+}
+.settings-content .ui.dividing.header {
+    background-color: #ffffff;
+    height: 60px;
+    padding-top: 20px;
+    position: absolute;
+    top: 0;
+    width: 75vw;
+    z-index: 10;
+}
+.settings-content .ui.card>.image, .ui.cards>.card>.image {
+    background-color: #ffffff;
+    margin: 10px 0;
+}
+.settings-content .ui.card>.extra, .ui.cards>.card>.extra {
+    font-size: 18px;
+    text-align: center;
+}

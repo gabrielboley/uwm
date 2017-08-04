@@ -10,6 +10,7 @@ import { needsToLogin } from './uwm.viewStates';
 import { updateUser, updatePageInView } from './uwm.actions';
 // Pages
 import Login from '../pages/Login/Login';
+import Settings from '../pages/Settings/Settings';
 import CreateOrder from '../pages/CreateOrder/CreateOrder';
 // Components
 import { LeftNav } from '../components/LeftNav';
@@ -42,6 +43,13 @@ class Uwm extends Component {
                     class: 'login',
                     header: 'Please Login',
                     view: <Login />
+                };
+            }
+            case 'settings': {
+                return {
+                  class: 'settings',
+                  header: 'Settings',
+                  view: <Settings />
                 };
             }
             default: {

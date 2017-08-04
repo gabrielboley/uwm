@@ -1,4 +1,5 @@
 import { CLEAR_ERRORS, LOG_USER_IN, HAS_LOGIN_ERRORS } from './login.actions';
+import { UPDATE_USER_SETTINGS } from '../Settings/settings.actions';
 
 import { data } from '../../demo/data';
 
@@ -18,7 +19,13 @@ export const loginError = (state = false, action) => {
 }
 
 export const users = (state = data.users, action) => {
+    let newState;
     switch (action.type) {
+        case UPDATE_USER_SETTINGS: {
+            newState = Object.assign({}, state);
+            newState[action.userIndex] = action.user;
+            return newState;
+        }
         default: {
             return state;
         }
