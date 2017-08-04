@@ -6,7 +6,7 @@ import './editUser.css';
 import { EditField } from './EditField';
 import { PassCode } from '../../pages/Login/Passcode';
 import { isValidEmail } from '../../utils/isValidEmail';
-import { updateUserSettings } from '../../pages/Settings/settings.actions';
+import { deleteUser, updateUserSettings } from '../../pages/Settings/settings.actions';
 
 const fieldMap = {
     name: 0,
@@ -18,6 +18,7 @@ const fieldMap = {
 
 export class EditUser extends Component {
     state = {
+        id: this.props.id,
         activeField: '',
         name: this.props.name,
         email: this.props.email,
@@ -140,12 +141,14 @@ export class EditUser extends Component {
             if (currentPassword.length === 4) {
                 if (currentPassword === newPassword) {
                     this.setState({
+                        needsToSave: true,
                         passwordModal: false,
                         needsPasswordConfirmation: false
                     });
                     return;
                 } else {
                     this.setState({
+                        needsToSave: false,
                         passwordError: true,
                         newPassword: '',
                         newPasswordConfirmation: ''
@@ -171,6 +174,30 @@ export class EditUser extends Component {
                 })
             }
         }
+    }
+
+    onSaveUserChanges = () => {
+        const { index } = this.props;
+        const { id, email, name, password, phone, username } = this.state;
+        const user = { id, email, name, password, phone, username };
+
+        if (this.props.updateView) {
+            this.props.updateView('users');
+        }
+
+        this.setState({ needsToSave: false });
+        this.props.dispatch(updateUserSettings(index, user));
+    }
+
+    onDeleteUser = () => {
+        const { index } = this.props;
+        const { id, email, name, password, phone, username } = this.state;
+        const user = { id, email, name, password, phone, username };
+
+        if (this.props.updateView) {
+            this.props.updateView('users');
+        }
+        this.props.dispatch(deleteUser(index, user));
     }
 
     renderPasswordHeader = () => {
@@ -210,15 +237,7 @@ export class EditUser extends Component {
     }
 
     renderSaveButton = () => {
-        const { index } = this.props;
-        const {
-            email,
-            name,
-            password,
-            phone,
-            username,
-            needsToSave
-        } = this.state;
+        const { needsToSave } = this.state;
         const hasErrors = this.state.hasErrors.some(num => num === 1);
         if (!needsToSave || hasErrors) {
             return null;
@@ -230,7 +249,6 @@ export class EditUser extends Component {
             width: '90%',
             zIndex: '100'
         };
-        const user = { email, name, password, phone, username };
         return (
             <Button
                 fluid
@@ -238,7 +256,7 @@ export class EditUser extends Component {
                 style={styles}
                 content="Save"
                 className="save-user-button"
-                onTouchTap={() => this.props.dispatch(updateUserSettings(index, user))}
+                onTouchTap={this.onSaveUserChanges}
             />
         )
     }
@@ -246,16 +264,18 @@ export class EditUser extends Component {
     render () {
         return (
             <div className="edit-user-wrapper">
-                <Header
-                    as="h3"
-                    className="back-to-breadcrumb"
-                    onTouchTap={e => this.props.backToUsers(e)}
-                >
-                    <Icon name="arrow left" />
-                    <Header.Content>
-                        Back to Users
-                    </Header.Content>
-                </Header>
+                {this.props.renderBackButton &&
+                    <Header
+                        as="h3"
+                        className="back-to-breadcrumb"
+                        onTouchTap={e => this.props.backToUsers(e)}
+                    >
+                        <Icon name="arrow left" />
+                        <Header.Content>
+                            Back to Users
+                        </Header.Content>
+                    </Header>
+                }
                 <div className="edit-user-info">
                     <Card fluid>
                         <Image src="/images/svg/settings-users.svg"/>
@@ -266,7 +286,6 @@ export class EditUser extends Component {
                                     focus={this.state.activeField === 'name'}
                                     icon="user"
                                     needsValidation
-                                    handleNeedsToSave={this.props.handleNeedsToSave}
                                     onFieldUpdate={this.onFieldUpdate}
                                     onFieldFocus={this.onFieldFocus}
                                     original={this.props.name}
@@ -279,11 +298,9 @@ export class EditUser extends Component {
                                     focus={this.state.activeField === 'username'}
                                     icon="at"
                                     needsValidation
-                                    handleNeedsToSave={this.props.handleNeedsToSave}
                                     onFieldUpdate={this.onFieldUpdate}
                                     onFieldFocus={this.onFieldFocus}
                                     original={this.props.username}
-                                    shouldEdit={this.state.activeField === 'username'}
                                     wrapperClass="user-username"
                                     value={this.state.username}
                                     validation={this.state.hasErrors[fieldMap['username']] === 0}
@@ -293,7 +310,6 @@ export class EditUser extends Component {
                                     focus={this.state.activeField === 'email'}
                                     icon="mail"
                                     needsValidation
-                                    handleNeedsToSave={this.props.handleNeedsToSave}
                                     onFieldUpdate={this.onFieldUpdate}
                                     onFieldFocus={this.onFieldFocus}
                                     original={this.props.email}
@@ -305,7 +321,6 @@ export class EditUser extends Component {
                                 <EditField
                                     field="phone"
                                     focus={this.state.activeField === 'phone'}
-                                    handleNeedsToSave={this.props.handleNeedsToSave}
                                     icon="phone"
                                     needsValidation
                                     onFieldUpdate={this.onFieldUpdate}
@@ -319,7 +334,6 @@ export class EditUser extends Component {
                                 <EditField
                                     field="password"
                                     focus={this.state.activeField === 'password'}
-                                    handleNeedsToSave={this.props.handleNeedsToSave}
                                     icon="lock"
                                     needsValidation
                                     onFieldUpdate={this.onFieldUpdate}
@@ -333,11 +347,15 @@ export class EditUser extends Component {
                             </Card.Header>
                             <Card.Meta>
                                 <div className='ui two buttons'>
-                                    <Button
-                                        basic
-                                        color='red'
-                                        content="Delete"
-                                    />
+                                    {this.props.renderBackButton
+                                    && (this.props.activeUser.id !== this.state.id) &&
+                                        <Button
+                                            basic
+                                            color='red'
+                                            content="Delete"
+                                            onTouchTap={this.onDeleteUser}
+                                        />
+                                    }
                                 </div>
                             </Card.Meta>
                         </Card.Content>

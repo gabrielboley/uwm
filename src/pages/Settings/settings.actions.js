@@ -4,3 +4,10 @@ export const updateUserSettings = (userIndex, user) => ({
     userIndex,
     user
 })
+
+export const DELETE_USER = 'DELETE_USER';
+export const deleteUser = (userIndex, user) => ({
+    type: DELETE_USER,
+    userIndex,
+    user
+})

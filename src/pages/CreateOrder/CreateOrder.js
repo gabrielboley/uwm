@@ -8,10 +8,11 @@ import { AddItem } from './views/AddItem';
 import { guestUser } from '../../consts/guest';
 import { ReviewOrder } from './views/ReviewOrder';
 import { CustomerType } from './views/CustomerSelection';
+import { updatePageInView } from '../../uwm/uwm.actions';
 import { ConfirmCustomer } from './views/ConfirmCustomer';
 import { AddNewCustomer } from '../../components/AddNewCustomer';
 import { CustomerSelection } from '../../components/CustomerSelection';
-import { toggleGuest, updateCustomer, removeActiveCustomer } from './createOrder.actions';
+import { addNewOrder, toggleGuest, updateCustomer, removeActiveCustomer } from './createOrder.actions';
 
 class CreateOrder extends Component {
     state = {
@@ -71,6 +72,29 @@ class CreateOrder extends Component {
         const { itemsToAdd } = this.state;
         itemsToAdd.push(keygen.hex(keygen.small));
         this.setState({ itemsToAdd });
+    }
+
+    onProcessOrder = () => {
+        const { activeUser, activeCustomer } = this.props;
+        const { currentItems } = this.state;
+        const order = {
+            id: keygen.hex(keygen.small),
+            customerId: activeCustomer.id,
+            dateOfOrder: Date.now(),
+            images: [],
+            isOpen: true,
+            orderItems: currentItems,
+            notes: null,
+            orderTotal: null,
+            owner: activeUser.id,
+            status: 'open'
+        };
+        this.setState({
+            view: 'customer-selection'
+        }, () => {
+            this.props.dispatch(addNewOrder(order));
+            this.props.dispatch(updatePageInView('in-progress'));
+        })
     }
 
     onRemoveItem = (itemIndex) => {
@@ -265,6 +289,7 @@ class CreateOrder extends Component {
                         customer={this.props.activeCustomer}
                         handleRemoveItem={this.onRemoveItem}
                         onAddAnotherItem={this.onAddItemClick}
+                        onProcessOrder={this.onProcessOrder}
                         onClearActiveUser={this.onClearActiveUser}
                     />
                 );

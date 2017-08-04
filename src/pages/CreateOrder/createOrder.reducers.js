@@ -2,6 +2,7 @@ import { data } from '../../demo/data';
 
 import {
     TOGGLE_GUEST,
+    ADD_NEW_ORDER,
     UPDATE_CUSTOMER,
     REMOVE_ACTIVE_CUSTOMER
 } from './createOrder.actions';
@@ -47,16 +48,13 @@ export const isGuest = (state = false, action) => {
     }
 }
 
-export const products = (state = data.products, action) => {
+export const orders = (state = data.orders, action) => {
+    const orders = state.slice();
     switch (action.type) {
-        default: {
-            return state;
+        case ADD_NEW_ORDER: {
+            orders.push(action.order);
+            return orders;
         }
-    }
-}
-
-export const orders = (state = null, action) => {
-    switch (action.type) {
         default: {
             return state;
         }

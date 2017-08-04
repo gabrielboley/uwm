@@ -11,6 +11,7 @@ import { updateUser, updatePageInView } from './uwm.actions';
 // Pages
 import Login from '../pages/Login/Login';
 import Settings from '../pages/Settings/Settings';
+import InProgress from '../pages/InProgress/InProgress';
 import CreateOrder from '../pages/CreateOrder/CreateOrder';
 // Components
 import { LeftNav } from '../components/LeftNav';
@@ -50,6 +51,13 @@ class Uwm extends Component {
                   class: 'settings',
                   header: 'Settings',
                   view: <Settings />
+                };
+            }
+            case 'in-progress': {
+                return {
+                  class: 'in-progress',
+                  header: 'In Progress',
+                  view: <InProgress />
                 };
             }
             default: {
