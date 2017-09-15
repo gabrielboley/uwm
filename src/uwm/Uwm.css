@@ -1,3 +1,7 @@
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; /* Disable selection/copy in UIWebView */
+}
 .uwm-container {
     height: 100vh;
 }

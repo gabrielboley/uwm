@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Card, Divider, Header, Icon, Button, Label, List, TextArea } from 'semantic-ui-react';
 
 import './inProgress.css';
+import { updateOrder } from './inProgress.actions';
 import { orderNumber } from '../../utils/orderNumber';
 
 const replaceDollar = /\$/g;
@@ -24,7 +25,7 @@ class InProgress extends Component {
         });
     }
 
-    onBackToInProgress = () => this.setState({ edit: false });
+    onBackToInProgress = () => this.setState({ edit: false, order: null });
 
     onChangeNotes = (e, { value }) => {
         const { order } = this.state;
@@ -36,7 +37,7 @@ class InProgress extends Component {
     }
 
     onSaveOrder = () => {
-
+        this.props.dispatch(updateOrder(this.state.order));
     }
 
     onToggleOrderItem = (key, order) => {

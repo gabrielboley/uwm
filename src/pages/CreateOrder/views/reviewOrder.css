@@ -1,8 +1,7 @@
 .review-order-wrapper .customer-wrapper {
-  width: 105%;
-  height: 113px;
   background-color: #f1f1f1;
-  margin-left: -14px;
+  color: #72787d;
+  height: 113px;
   padding: 15px;
   position: relative;
 }
@@ -28,7 +27,9 @@
 }
 .review-order-wrapper .complete-order-wrapper {
   position: absolute;
-  bottom: 10px;
+  bottom: 20px;
   right: 20px;
-  z-index: 100;
+  z-index: 300;
+}
+button.ui.huge.primary.button.process-order-button {
 }

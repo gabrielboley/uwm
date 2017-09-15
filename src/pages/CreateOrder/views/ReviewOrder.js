@@ -17,7 +17,9 @@ export class ReviewOrder extends Component {
                 <div
                     className="edit-customer"
                     onTouchTap={this.props.onClearActiveUser}
-                >Edit</div>
+                >
+                    Edit
+                </div>
             </div>
         );
     }

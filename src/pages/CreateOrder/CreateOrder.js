@@ -4,6 +4,15 @@ import React, { Component } from 'react';
 import { Button, Radio, Header } from 'semantic-ui-react';
 
 import './createOrder.css';
+import { 
+    ADD_ITEM,
+    CREATE_NEW,
+    REVIEW_ORDER,
+    CONFIRM_CUSTOMER,
+    CUSTOMER_SELECTION,
+    EXISTING_SELECTION,
+    CREATE_CUSTOMER_GUEST
+} from '../../consts/views';
 import { AddItem } from './views/AddItem';
 import { guestUser } from '../../consts/guest';
 import { ReviewOrder } from './views/ReviewOrder';
@@ -19,8 +28,9 @@ class CreateOrder extends Component {
         itemsToAdd: [keygen.hex(keygen.small)],
         currentItems: {},
         currentSearch: '',
+        pendingOrder: null,
         shipOrPickupAll: '',
-        view: 'customer-selection'
+        view: CUSTOMER_SELECTION
     }
 
     handleAddItem = (item, key) => {
@@ -32,7 +42,7 @@ class CreateOrder extends Component {
     onAddItemClick = (shouldReset, e) => {
         e.preventDefault();
         e.stopPropagation();
-        const view = 'add-item';
+        const view = 'ADD_ITEM';
         const itemsToAdd = [keygen.hex(keygen.small)];
         let { currentItems } = this.state;
         if (shouldReset) {
@@ -41,12 +51,12 @@ class CreateOrder extends Component {
         this.setState({ currentItems, itemsToAdd, view });
     }
 
-    onToReviewItems = () => this.setState({ view: 'review-order' });
+    onToReviewItems = () => this.setState({ view: REVIEW_ORDER });
 
     onClearActiveUser = () => {
         this.props.dispatch(removeActiveCustomer());
         this.setState({
-            view: 'customer-selection'
+            view: CUSTOMER_SELECTION
         });
     }
 
@@ -54,7 +64,7 @@ class CreateOrder extends Component {
         e.preventDefault();
         e.stopPropagation();
         this.setState({
-            view: 'existing-selection'
+            view: EXISTING_SELECTION
         });
     }
 
@@ -62,7 +72,7 @@ class CreateOrder extends Component {
         e.preventDefault();
         e.stopPropagation();
         this.setState({
-            view: 'add-item'
+            view: ADD_ITEM
         });
         this.props.dispatch(toggleGuest());
         this.props.dispatch(updateCustomer(guestUser));
@@ -77,7 +87,7 @@ class CreateOrder extends Component {
     onProcessOrder = () => {
         const { activeUser, activeCustomer } = this.props;
         const { currentItems } = this.state;
-        const order = {
+        const pendingOrder = {
             id: keygen.hex(keygen.small),
             customerId: activeCustomer.id,
             dateOfOrder: Date.now(),
@@ -89,10 +99,18 @@ class CreateOrder extends Component {
             owner: activeUser.id,
             status: 'open'
         };
+
+        if (this.props.isGuest) {
+            return this.setState({
+                pendingOrder,
+                view: CREATE_CUSTOMER_GUEST
+            });
+        }
+
         this.setState({
-            view: 'customer-selection'
+            view: CUSTOMER_SELECTION
         }, () => {
-            this.props.dispatch(addNewOrder(order));
+            this.props.dispatch(addNewOrder(pendingOrder));
             this.props.dispatch(updatePageInView('in-progress'));
         })
     }
@@ -104,7 +122,7 @@ class CreateOrder extends Component {
 
         delete currentItems[itemIndex];
         if (Object.keys(currentItems).length === 0) {
-            view = 'add-item';
+            view = ADD_ITEM;
             newItems = [ keygen.hex(keygen.small) ];
         }
         this.setState({
@@ -117,7 +135,7 @@ class CreateOrder extends Component {
     onUserSelection = (user) => {
         this.props.dispatch(updateCustomer(user));
         this.setState({
-            view: 'confirm-customer'
+            view: CONFIRM_CUSTOMER
         });
     }
 
@@ -133,7 +151,7 @@ class CreateOrder extends Component {
         e.preventDefault();
         e.stopPropagation();
         this.setState({
-            view: 'create-new'
+            view: CREATE_NEW
         });
     }
 
@@ -154,7 +172,7 @@ class CreateOrder extends Component {
 
     renderAddItemButton = () => {
         const { currentItems, view } = this.state;
-        if (!Object.keys(currentItems).length || view !== 'add-item' ) {
+        if (!Object.keys(currentItems).length || view !== ADD_ITEM ) {
             return null;
         }
         return (
@@ -166,8 +184,8 @@ class CreateOrder extends Component {
                     onTouchTap={this.onAnotherItem}
                 />
                 <Button
-                    size="huge"
                     primary
+                    size="huge"
                     icon="arrow right"
                     content="Add Item"
                     className="add-item-button"
@@ -181,13 +199,14 @@ class CreateOrder extends Component {
         const { view } = this.state;
         let touchEvent = this.onClearActiveUser;
 
-        if (view === 'add-item') {
+        if (view === ADD_ITEM) {
             touchEvent = this.props.isGuest
                 ? this.onClearActiveUser
-                : () => this.setState({ view: 'confirm-customer' });
+                : () => this.setState({ view: CONFIRM_CUSTOMER });
         }
 
-        if (view === 'customer-selection') {
+        if (view === CUSTOMER_SELECTION
+            || view === CREATE_CUSTOMER_GUEST) {
             return null;
         }
 
@@ -222,7 +241,7 @@ class CreateOrder extends Component {
             }
         };
         switch (view) {
-            case 'add-item': {
+            case ADD_ITEM: {
                 return (
                     <div className="add-items-wrapper">
                         <div
@@ -251,10 +270,10 @@ class CreateOrder extends Component {
                     </div>
                 );
             }
-            case 'create-new': {
-                return <AddNewCustomer />;
+            case CREATE_NEW: {
+                return <AddNewCustomer dispatch={this.props.dispatch}/>;
             }
-            case 'confirm-customer': {
+            case CONFIRM_CUSTOMER: {
                 return (
                     <ConfirmCustomer
                         onAddItemClick={this.onAddItemClick}
@@ -263,7 +282,7 @@ class CreateOrder extends Component {
                     />
                 );
             }
-            case 'existing-selection': {
+            case EXISTING_SELECTION: {
                 return (
                     <CustomerSelection
                         customers={this.props.customers}
@@ -273,7 +292,7 @@ class CreateOrder extends Component {
                     />
                 );
             }
-            case 'customer-selection': {
+            case CUSTOMER_SELECTION: {
                 return (
                     <CustomerType
                         onGuestOption={this.onGuestOption}
@@ -282,7 +301,10 @@ class CreateOrder extends Component {
                     />
                 );
             }
-            case 'review-order': {
+            case CREATE_CUSTOMER_GUEST: {
+                return <AddNewCustomer isGuest dispatch={this.props.dispatch}/>;
+            }
+            case REVIEW_ORDER: {
                 return (
                     <ReviewOrder
                         items={this.state.currentItems}
@@ -300,18 +322,55 @@ class CreateOrder extends Component {
         }
     }
 
+    renderHeader = () => {
+        let icon = 'add user';
+        let content = 'Create New Order';
+        const { view } = this.state;
+
+        switch (view) {
+            case CREATE_NEW: {
+                icon = 'add user';
+                content = 'New Customer';
+                break;
+            }
+            case REVIEW_ORDER: {
+                icon = 'checkmark box';
+                content = 'Review Order';
+                break;
+            }
+            case ADD_ITEM: {
+                icon = 'plus';
+                content = 'Add Item';
+                break;
+            }
+            case CREATE_CUSTOMER_GUEST: {
+                icon = 'plus';
+                content = 'Add New Customer';
+                break;
+            }
+            default: {
+                icon = 'add user';
+                content = 'Create New Order';
+            }
+        }
+
+        return (
+            <Header
+                dividing
+                icon={icon}
+                content={content}
+            />
+        );
+    }
+
     render (){
         return (
             <div className="create-order-container">
                 <div className="create-order-content">
-                    <Header
-                        dividing
-                        icon="add user"
-                        content="Create New Order"
-                    />
+                    {this.renderHeader()}
                     {this.renderContent()}
                 </div>
-                <div className="footer">
+                <div className={this.state.view === REVIEW_ORDER ? 'footer review' : 'footer'}>
                     {this.renderBackButton()}
                     {this.renderAddItemButton()}
                 </div>
