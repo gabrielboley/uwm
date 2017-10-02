@@ -89,6 +89,7 @@ export class CustomerSelection extends Component {
                         viewModal
                         customer={this.state.customer}
                         handleCloseModal={this.handleCloseModal}
+                        onUserEdit={this.props.onUserEdit}
                         onUserSelection={this.props.onUserSelection}
                     />
                 }

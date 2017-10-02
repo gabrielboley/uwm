@@ -97,6 +97,13 @@ class CreateOrder extends Component {
         });
     }
 
+    onUserEdit = (user) => {
+        this.props.dispatch(updateCustomer(user));
+        this.setState({
+            view: 'confirm-customer'
+        });
+    }
+
     onShipOrPickupAll = (e, { value }) => {
         const { shipOrPickupAll } = this.state;
         const newValue = shipOrPickupAll === value ? '' : value;
@@ -245,6 +252,7 @@ class CreateOrder extends Component {
                         customers={this.props.customers}
                         onNewUserClick={this.onNewUserClick}
                         onUserSelection={this.onUserSelection}
+                        onUserEdit={this.onUserEdit}
                         currentSearch={this.state.currentSearch}
                     />
                 );
