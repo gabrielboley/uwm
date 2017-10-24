@@ -28,8 +28,11 @@ export class ReviewOrder extends Component {
             const item = items[itemKey];
             return (
                 <Item
-                    {...item}
+                    item={item}
                     index={itemKey}
+                    products={this.props.products}
+                    handleAddItem={this.props.handleAddItem}
+                    handleEditItem={this.props.handleEditItem}
                     handleRemoveItem={this.props.handleRemoveItem}
                     key={`item-${item.name}-${item.id}-${index}`}
                 />
@@ -47,7 +50,7 @@ export class ReviewOrder extends Component {
                 primary
                 content="Add Another Item"
                 className="next-step-button"
-                onTouchTap={() => this.props.onAddAnotherItem(false)}
+                onTouchTap={(e) => this.props.onAddAnotherItem(false, e)}
             />
         </div>
     )

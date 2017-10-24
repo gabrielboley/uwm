@@ -29,11 +29,12 @@ export class AddItem extends Component {
             delivery: '1',
             images: [],
             isLoading: false,
-            item: null,
+            item: this.props.item || null,
             imagePreviewUrl: [],
             results: [],
             notes: '',
-            value: ""
+            value: "",
+            nameInputHasChanged: false
         };
     }
 
@@ -42,6 +43,16 @@ export class AddItem extends Component {
     }
 
     resetComponent = () => this.setState({ isLoading: false, results: [], value: '' });
+
+    getNameValue(value) {
+        if (value) {
+            return value;
+        }
+        if (!this.state.nameInputHasChanged) {
+            return this.renderPlaceholder('name');
+        }
+        return '';
+    }
 
     handleImageChange = (e) => {
         e.preventDefault();
@@ -93,7 +104,7 @@ export class AddItem extends Component {
     }
 
     handleSearchChange = (e, value) => {
-        this.setState({ isLoading: true, value: value.value });
+        this.setState({ isLoading: true, value: value.value, nameInputHasChanged: true });
 
         setTimeout(() => {
             if (this.state.value.length < 1) {
@@ -293,14 +304,14 @@ export class AddItem extends Component {
 
         return (
             <div className="add-item-container">
-                {this.renderDivider()}
-                {this.renderDeleteButton()}
+                {!this.props.editItem && this.renderDivider()}
+                {!this.props.editItem && this.renderDeleteButton()}
                 <Form className="add-item-wrapper">
                     <Grid stackable>
                         <Grid.Column width={10}>
                             <Form.Group>
                                 <Form.Input
-                                    value={value}
+                                    value={this.getNameValue(value)}
                                     control={Search}
                                     results={results}
                                     loading={isLoading}

@@ -1,39 +1,56 @@
 import React, { Component } from 'react';
-import { Button, Divider, Header, Modal, List, Icon } from 'semantic-ui-react'
+import { Button, Modal } from 'semantic-ui-react'
 
 import './itemQuickView.css';
+import { AddItem } from '../../pages/CreateOrder/views/AddItem';
 
 export class ItemQuickView extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            newItem: null,
+            originalItem: this.props.item
+        }
+    }
+
+    captureNewItem(newItem) {
+        this.setState({
+            newItem
+        });
+    }
+
+    saveNewItem() {
+        if (this.state.newItem) {
+            this.props.handleAddItem(this.state.newItem, this.props.itemKey);
+        }
+        this.props.handleCloseModal();
+    }
+
     render (){
-        const { customer, viewModal, handleCloseModal, onUserSelection } = this.props;
+        const { item, products, viewModal } = this.props;
         return (
             <Modal open={viewModal} className="item-quick-view-wrapper">
-                <Modal.Header>Customer</Modal.Header>
+                <Modal.Header>Edit Order Item</Modal.Header>
                 <Modal.Content>
-                    <Modal.Description>
-                        <Header>
-                            <Icon name="user" />
-                        </Header>
-                        <List>
-                            <List.Item>
-                                <List.Icon name='phone' />
-                            </List.Item>
-                            <List.Item>
-                                <List.Icon name='mail' />
-                            </List.Item>
-                            <List.Item>
-                                <List.Icon name='marker' />
-                            </List.Item>
-                        </List>
-                        <Divider />
-                        <Button.Group floated="left">
-                            <Button secondary content="Cancel" onTouchTap={handleCloseModal} />
-                        </Button.Group>
-                        <Button.Group floated="right" className="quick-view-actions">
-                            <Button content="Edit" />
-                            <Button primary content="Select" onTouchTap={() => onUserSelection(customer)} />
-                        </Button.Group>
-                    </Modal.Description>
+                    <AddItem 
+                        handleAddItem={(newItem) => this.captureNewItem(newItem)}
+                        item={item}
+                        products={products}
+                        editItem
+                    />
+                    <Button
+                        size="large"
+                        content="Save Change"
+                        className="add-another primary"
+                        onTouchTap={() => this.saveNewItem()}
+                    />
+                    <Button
+                        size="large"
+                        content="Cancel"
+                        className="cancel"
+                        onTouchTap={this.props.handleCloseModal}
+                    />
                 </Modal.Content>
             </Modal>
         );

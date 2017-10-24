@@ -28,6 +28,13 @@ class CreateOrder extends Component {
         this.setState({ currentItems });
     }
 
+    handleEditItem = (itemObj) => {
+        console.log('currentItems: ', this.state.currentItems);
+        // const { currentItems } = this.state;
+        // currentItems[key] = item;
+        // this.setState({ currentItems });
+    }
+
     onAddItemClick = (shouldReset, e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -271,7 +278,10 @@ class CreateOrder extends Component {
                     <ReviewOrder
                         items={this.state.currentItems}
                         customer={this.props.activeCustomer}
+                        handleAddItem={this.handleAddItem}
+                        handleEditItem={this.handleEditItem}
                         handleRemoveItem={this.onRemoveItem}
+                        products={this.props.products}
                         onAddAnotherItem={this.onAddItemClick}
                         onClearActiveUser={this.onClearActiveUser}
                     />

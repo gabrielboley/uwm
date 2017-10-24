@@ -10,7 +10,7 @@ export class Item extends Component {
         viewModal: false
     };
 
-    handleOpenModal = () => this.setState({ viewModal: true });
+    handleOpenModal = (e) => this.setState({ viewModal: true });
 
     handleCloseModal = (e) => this.setState({ viewModal: false });
 
@@ -44,7 +44,7 @@ export class Item extends Component {
                 <div className="item-actions">
                     <div
                         className="edit-item"
-                        onTouchTap={this.handleOpenModal}
+                        onTouchTap={() => this.handleOpenModal(this.props.index)}
                     >
                         Edit
                     </div>
@@ -58,8 +58,12 @@ export class Item extends Component {
                 {this.state.viewModal &&
                     <ItemQuickView
                         viewModal
+                        handleAddItem={this.props.handleAddItem}
+                        handleEditItem={this.props.handleEditItem}
                         handleCloseModal={this.handleCloseModal}
-                        {...this.props}
+                        item={this.props.item}
+                        itemKey={this.props.index}
+                        products={this.props.products}
                     />
                 }
             </div>
