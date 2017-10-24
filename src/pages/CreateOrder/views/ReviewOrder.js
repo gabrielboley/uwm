@@ -32,7 +32,6 @@ export class ReviewOrder extends Component {
                     index={itemKey}
                     products={this.props.products}
                     handleAddItem={this.props.handleAddItem}
-                    handleEditItem={this.props.handleEditItem}
                     handleRemoveItem={this.props.handleRemoveItem}
                     key={`item-${item.name}-${item.id}-${index}`}
                 />

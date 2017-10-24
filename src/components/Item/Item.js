@@ -59,7 +59,6 @@ export class Item extends Component {
                     <ItemQuickView
                         viewModal
                         handleAddItem={this.props.handleAddItem}
-                        handleEditItem={this.props.handleEditItem}
                         handleCloseModal={this.handleCloseModal}
                         item={this.props.item}
                         itemKey={this.props.index}
