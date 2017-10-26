@@ -48078,6 +48078,42 @@ export const data = {
             "orderTotal": null,
             "owner": "gabe boley",
             "status": "open"
+        },
+        {
+            "id": 0,
+            "customerId": 3,
+            "dateOfOrder": 1497685810386,
+            "images": [],
+            "isOpen": false,
+            "orderItems": [{
+                "id": 7,
+                "name": "Latlux",
+                "description": null,
+                "canBeAltered": false,
+                "canBeShipped": false,
+                "price": "$1001.58",
+                "images": "IMAGE_ARRAY",
+                "notes": null,
+                "garmentType": "dress shirt",
+                "quantity": 85,
+                "measurementType": null
+            }, {
+                "id": 11,
+                "name": "Fix San",
+                "description": null,
+                "canBeAltered": true,
+                "canBeShipped": true,
+                "price": "$4131.56",
+                "images": "IMAGE_ARRAY",
+                "notes": null,
+                "garmentType": "sportswear",
+                "quantity": 16,
+                "measurementType": null
+            }],
+            "notes": null,
+            "orderTotal": null,
+            "owner": "gabe boley",
+            "status": "closed"
         }
     ],
     page: 'create-order'

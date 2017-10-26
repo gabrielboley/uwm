@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Header } from 'semantic-ui-react';
+import { Card, Header, Button } from 'semantic-ui-react';
 
 import './settings.css';
 import Users from '../../components/Users/Users';
@@ -13,6 +13,35 @@ export default class Settings extends Component {
         e.preventDefault();
         e.stopPropagation();
         this.setState({ view });
+    }
+
+    renderBackButton = () => {
+        const { view } = this.state;
+        let touchEvent;
+
+        if (view === 'menu') {
+            return null;
+        }
+
+        if (
+            view === 'product' || 
+            view === 'customers' ||
+            view === 'users' ||
+            view === 'my-account'
+        ) {
+            touchEvent = () => this.setState({ view: 'menu' });
+        }
+
+        return (
+            <div className="back-button-wrapper">
+                <Button
+                    size="huge"
+                    content="Back to Settings Menu"
+                    className="next-step-button"
+                    onTouchTap={touchEvent}
+                />
+            </div>
+        )
     }
 
     renderContent = () => {
@@ -78,6 +107,7 @@ export default class Settings extends Component {
                     {this.renderContent()}
                 </div>
                 <div className="footer">
+                    {this.renderBackButton()}
                 </div>
             </div>
         );

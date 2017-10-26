@@ -73,6 +73,10 @@ class CreateOrder extends Component {
         this.setState({ itemsToAdd });
     }
 
+    onProcessOrder = () => {
+        console.log(this.state);
+    }
+
     onRemoveItem = (itemIndex) => {
         let { view } = this.state;
         const { currentItems, itemsToAdd } = this.state;
@@ -164,10 +168,16 @@ class CreateOrder extends Component {
         const { view } = this.state;
         let touchEvent = this.onClearActiveUser;
 
-        if (view === 'add-item') {
+        if (view === 'add-item' || view === 'review-order') {
             touchEvent = this.props.isGuest
                 ? this.onClearActiveUser
                 : () => this.setState({ view: 'confirm-customer' });
+        }
+
+        if (view === 'confirm-customer') {
+            touchEvent = this.props.isGuest
+                ? this.onClearActiveUser
+                : () => this.setState({ view: 'existing-selection' });
         }
 
         if (view === 'customer-selection') {
@@ -277,6 +287,7 @@ class CreateOrder extends Component {
                         products={this.props.products}
                         onAddAnotherItem={this.onAddItemClick}
                         onClearActiveUser={this.onClearActiveUser}
+                        onProcessOrder={this.onProcessOrder}
                     />
                 );
             }

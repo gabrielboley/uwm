@@ -9,6 +9,10 @@
     -webkit-overflow-scrolling: touch;
 }
 
+.settings-container .footer .back-button-wrapper {
+    width:50%;
+}
+
 .settings-content {
     padding-top: 120px;
     width: 100%;
