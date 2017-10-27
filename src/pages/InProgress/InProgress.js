@@ -7,12 +7,18 @@ import { updateOrder } from './inProgress.actions';
 import { orderNumber } from '../../utils/orderNumber';
 
 const replaceDollar = /\$/g;
+const initialState = {
+    customer: null,
+    edit: false,
+    order: null,
+    orderComplete: false
+};
 class InProgress extends Component {
-    state = {
-        customer: null,
-        edit: false,
-        order: null
+    componentWillUnmount() {
+        this.setState({ initialState });
     }
+
+    state = initialState;
 
     onEditOrder = (e, order, customer) => {
         e.preventDefault();
