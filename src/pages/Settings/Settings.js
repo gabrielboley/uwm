@@ -3,6 +3,8 @@ import { Card, Header, Button } from 'semantic-ui-react';
 
 import './settings.css';
 import Users from '../../components/Users/Users';
+import MyAccount from '../../components/MyAccount/MyAccount';
+import Products from '../../components/Products/Products';
 
 export default class Settings extends Component {
     state = {
@@ -47,8 +49,14 @@ export default class Settings extends Component {
     renderContent = () => {
         const { view } = this.state;
         switch (view) {
+            case 'my-account': {
+                return <MyAccount handleRouteChange={this.handleRouteChange}/>
+            }
             case 'users': {
-                return <Users />
+                return <Users handleRouteChange={this.handleRouteChange}/>
+            }
+            case 'products': {
+                return <Products handleRouteChange={this.handleRouteChange}/>
             }
             default:
                 return null;
@@ -79,7 +87,7 @@ export default class Settings extends Component {
                                 extra="Products"
                                 style={styles.card}
                                 image="/images/svg/dress-man.svg"
-                                onTouchTap={e => this.handleRouteChange(e, 'product')}
+                                onTouchTap={e => this.handleRouteChange(e, 'products')}
                             />
                             <Card
                                 color="blue"

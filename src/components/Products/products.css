@@ -1,0 +1,71 @@
+.products-wrapper {
+    margin-top: -82px;
+}
+.products-wrapper .product-footer {
+    bottom: 0;
+    position: fixed;
+}
+.ui.primary.button.add-new-product-confirm,
+.products-wrapper .ui.primary.button.add-new-product {
+    bottom: 12px;
+    height: 45px;
+    font-size: 18px;
+    position: fixed;
+    width: 93%;
+    z-index: 20;
+}
+
+.products-wrapper .product-list-wrapper {
+    padding: 0 15px 0 10px;
+    width: 100%;
+}
+.products-wrapper .product-list-wrapper .product-content-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.products-wrapper .product-list-wrapper .product-card {
+    position: relative;
+}
+.products-wrapper .product-list-wrapper .product-card .product-details{
+    text-align: left;
+    width: 100%;
+}
+.products-wrapper .product-list-wrapper .product-card .label {
+    text-align: left;
+}
+.products-wrapper .product-list-wrapper .product-card .label .content{
+    float: right;
+}
+.products-wrapper .product-list-wrapper .product-card .quantity-label {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 3px;
+    position: absolute;
+    right: 8px;
+    top: 3px;
+}
+
+.ui.blue.fluid.card.add-new-product-card {
+    margin-top: -60px;
+}
+.ui.blue.fluid.card.add-new-product-card .add-new-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-new-wrapper textarea,
+.add-new-wrapper .ui.toggle.checkbox,
+.add-new-wrapper .ui.fluid.labeled.input {
+    margin-bottom: 15px;
+}
+.add-new-wrapper .ui.toggle.checkbox {
+    font-size: 16px;
+}
+.add-new-wrapper .ui.toggle.checkbox label {
+    text-align: left;
+}
+.add-new-wrapper textarea {
+    border: 1px solid #e8e8e8;
+    padding: 5px;
+}

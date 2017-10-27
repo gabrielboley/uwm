@@ -16,6 +16,11 @@
   padding-top: 25px;
   padding-left: 10px;
 }
+.customer-list {
+  height: 100%;
+  overflow: hidden;
+  padding-bottom: 30px;
+}
 .customer-selection-wrapper .customer-list-item:first-of-type {
   border-top: none;
 }

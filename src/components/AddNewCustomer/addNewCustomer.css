@@ -19,6 +19,9 @@
 .add-customer-container .ui.form .state.field > .selection.dropdown {
   height: 45px;
 }
+.ui.divider.new-customer-divider {
+  margin-top: 50px;
+}
 .notes-container textarea,
 .ui.form .note-wrapper textarea {
   background-color: #ffffff;
@@ -36,6 +39,12 @@
   min-width: calc(105%);
   text-align: center;
 }
+.add-customer-button-wrapper button.ui.huge.primary.button {
+  bottom: 10px;
+  position: fixed;
+  right: 20px;
+  z-index: 100;
+}
 .add-customer-container .date-picker .ui.selection.active.dropdown,
 .add-customer-container .date-picker .ui.selection.active.dropdown .menu {
   display: -webkit-box;
@@ -49,8 +58,13 @@
   text-align: center;
   max-height: 450px;
   width: 300px;
-  right: 80px;
+  right: 150px;
 }
+
+.add-customer-container .date-picker .month .ui.selection.active.dropdown {
+  right: 0px;
+}
+
 .add-customer-container .date-picker .ui.selection.active.dropdown .text,
 .add-customer-container .date-picker .ui.selection.active.dropdown .menu .text {
   width: 100%;
@@ -68,9 +82,10 @@
   width: 90px;
 }
 .add-customer-container .date-picker .month .item {
-  display: flex;
   align-items: center;
+  display: flex;
   height: 75px;
+  text-align: center;
   width: 25%;
 }
 .add-customer-container .date-picker .day .item {
@@ -82,23 +97,6 @@
 }
 .ui.form .field > .selection.dropdown > .dropdown.icon {
   display: none;
-}
-.add-customer-container .ui.checkbox .box:before,
-.add-customer-container .ui.checkbox label:before {
-  height: 37px;
-  left: initial;
-  right: 9px;
-  top: 22px;
-  width: 37px;
-}
-.ui.checkbox .box:after,
-.ui.checkbox label:after {
-  font-size: 26px;
-  height: inherit;
-  left: initial;
-  top: 32px;
-  right: 14px;
-  width: inherit;
 }
 .ui.checkbox input:checked ~ .box:after,
 .ui.checkbox input:checked ~ label:after {

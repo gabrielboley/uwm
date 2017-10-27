@@ -8,6 +8,16 @@
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
 }
+.settings-container .setting-footer {
+    background-color: #ffffff;
+    bottom: 0;
+    border-top: solid 1px #c3c3c3;
+    height: 72px;
+    left: 0;
+    padding-top: 20px;
+    position: absolute;
+    width: 100%;
+}
 
 .settings-container .footer .back-button-wrapper {
     width:50%;

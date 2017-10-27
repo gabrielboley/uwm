@@ -17,7 +17,9 @@ export class ReviewOrder extends Component {
                 <div
                     className="edit-customer"
                     onTouchTap={this.props.onClearActiveUser}
-                >Edit</div>
+                >
+                    Edit
+                </div>
             </div>
         );
     }
@@ -49,7 +51,7 @@ export class ReviewOrder extends Component {
                 primary
                 content="Add Another Item"
                 className="next-step-button"
-                onTouchTap={(e) => this.props.onAddAnotherItem(false, e)}
+                onTouchTap={e => this.props.onAddAnotherItem(false, e)}
             />
         </div>
     )
