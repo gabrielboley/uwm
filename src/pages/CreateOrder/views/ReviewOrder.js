@@ -30,8 +30,10 @@ export class ReviewOrder extends Component {
             const item = items[itemKey];
             return (
                 <Item
-                    {...item}
+                    item={item}
                     index={itemKey}
+                    products={this.props.products}
+                    handleAddItem={this.props.handleAddItem}
                     handleRemoveItem={this.props.handleRemoveItem}
                     key={`item-${item.name}-${item.id}-${index}`}
                 />

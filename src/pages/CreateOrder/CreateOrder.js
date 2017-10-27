@@ -139,6 +139,13 @@ class CreateOrder extends Component {
         });
     }
 
+    onUserEdit = (user) => {
+        this.props.dispatch(updateCustomer(user));
+        this.setState({
+            view: 'confirm-customer'
+        });
+    }
+
     onShipOrPickupAll = (e, { value }) => {
         const { shipOrPickupAll } = this.state;
         const newValue = shipOrPickupAll === value ? '' : value;
@@ -199,7 +206,7 @@ class CreateOrder extends Component {
         const { view } = this.state;
         let touchEvent = this.onClearActiveUser;
 
-        if (view === ADD_ITEM) {
+        if (view === 'add-item') {
             touchEvent = this.props.isGuest
                 ? this.onClearActiveUser
                 : () => this.setState({ view: CONFIRM_CUSTOMER });
@@ -207,7 +214,9 @@ class CreateOrder extends Component {
 
         if (view === CUSTOMER_SELECTION
             || view === CREATE_CUSTOMER_GUEST) {
-            return null;
+            touchEvent = this.props.isGuest
+                ? this.onClearActiveUser
+                : () => this.setState({ view: 'existing-selection' });
         }
 
         return (
@@ -288,6 +297,7 @@ class CreateOrder extends Component {
                         customers={this.props.customers}
                         onNewUserClick={this.onNewUserClick}
                         onUserSelection={this.onUserSelection}
+                        onUserEdit={this.onUserEdit}
                         currentSearch={this.state.currentSearch}
                     />
                 );
@@ -309,10 +319,14 @@ class CreateOrder extends Component {
                     <ReviewOrder
                         items={this.state.currentItems}
                         customer={this.props.activeCustomer}
+                        handleAddItem={this.handleAddItem}
+                        handleEditItem={this.handleEditItem}
                         handleRemoveItem={this.onRemoveItem}
+                        products={this.props.products}
                         onAddAnotherItem={this.onAddItemClick}
                         onProcessOrder={this.onProcessOrder}
                         onClearActiveUser={this.onClearActiveUser}
+                        onProcessOrder={this.onProcessOrder}
                     />
                 );
             }
