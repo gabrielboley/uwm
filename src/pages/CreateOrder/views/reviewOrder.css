@@ -25,11 +25,19 @@
   color: #343434;
   padding: 10px;
 }
-.review-order-wrapper .complete-order-wrapper {
+.review-order-wrapper .complete-order-wrapper, 
+.review-order-wrapper .cancel-order-wrapper {
   position: absolute;
   bottom: 20px;
-  right: 20px;
   z-index: 300;
 }
-button.ui.huge.primary.button.process-order-button {
+.review-order-wrapper .complete-order-wrapper {
+  right: 20px;
+}
+.review-order-wrapper .cancel-order-wrapper {
+  right: 415px;
+}
+button.ui.huge.primary.button.process-order-button, 
+button.ui.huge.primary.button.cancel-order-button {
+
 }

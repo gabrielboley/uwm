@@ -9,6 +9,7 @@ import {
 } from './createOrder.actions';
 import { UPDATE_ORDER } from '../InProgress/inProgress.actions';
 import { ADD_NEW_CUSTOMER } from '../../components/AddNewCustomer/addNewCustomer.actions';
+import { DELETE_CUSTOMER } from '../../components/QuickView/customerQuickView.actions';
 
 export const activeCustomer = (state = null, action) => {
     switch (action.type) {
@@ -30,6 +31,11 @@ export const customers = (state = data.customers, action) => {
         case ADD_NEW_CUSTOMER: {
             customers = state.slice();
             customers.push(action.customer);
+            return customers;
+        }
+        case DELETE_CUSTOMER: {
+            customers = state.slice();
+            customers.splice(action.customerIndex, 1);
             return customers;
         }
         default: {

@@ -8,14 +8,14 @@
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
 }
-.settings-container .setting-footer {
+.settings-container .footer {
     background-color: #ffffff;
     bottom: 0;
     border-top: solid 1px #c3c3c3;
     height: 72px;
-    left: 0;
-    padding-top: 20px;
-    position: absolute;
+    left: 12px;
+    padding-top: 10px;
+    position: fixed;
     width: 100%;
 }
 
@@ -26,6 +26,24 @@
 .settings-content {
     padding-top: 120px;
     width: 100%;
+}
+.settings-content.customers{
+    padding-top:0;
+}
+.settings-content.EXISTING_SELECTION,
+.settings-content.CREATE_NEW {
+    padding-top:60px;
+}
+.settings-content .products-wrapper {
+    overflow-y: scroll;
+    height: 100%;
+}
+.settings-content .products-wrapper .add-new-product{
+    width:50%!important;
+    right:12px!important;
+    font-size: 20px!important;
+    bottom: 10px!important;
+    height: 50px!important;
 }
 .settings-content .ui.dividing.header {
     background-color: #ffffff;

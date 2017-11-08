@@ -14,7 +14,8 @@ export class Item extends Component {
 
     handleCloseModal = (e) => this.setState({ viewModal: false });
 
-    render (){
+    render () {
+        const { item } = this.props;
         return (
             <div className="item-wrapper">
                 <div className="item-details">
@@ -24,17 +25,17 @@ export class Item extends Component {
                     <div className="item-info">
                         <div className="item-name">
                             <span className="item-name-label">Name: </span>
-                            <span className="item-name-text text">{this.props.name}</span>
+                            <span className="item-name-text text">{item.name}</span>
                         </div>
                         <div className="item-type">
                             <span className="item-type-label">Type: </span>
-                            <span className="item-type-text text">{this.props.garmentType}</span>
+                            <span className="item-type-text text">{item.garmentType}</span>
                         </div>
                         <div className="item-price">
                             <span className="item-price-label">Price: </span>
-                            <span className="item-price-text text">{this.props.price}</span>
+                            <span className="item-price-text text">{item.price}</span>
                         </div>
-                        {this.props.canBeAltered &&
+                        {item.canBeAltered &&
                             <div className="item-alterations">
                                 <span className="item-alterations-label">Alterations:</span>
                             </div>
@@ -60,7 +61,7 @@ export class Item extends Component {
                         viewModal
                         handleAddItem={this.props.handleAddItem}
                         handleCloseModal={this.handleCloseModal}
-                        item={this.props.item}
+                        item={item}
                         itemKey={this.props.index}
                         products={this.props.products}
                     />

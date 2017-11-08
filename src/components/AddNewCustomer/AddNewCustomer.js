@@ -83,6 +83,7 @@ export class AddNewCustomer extends Component {
         };
         console.log('customer', customer); // eslint-disable-line no-console
         this.props.dispatch(addNewCustomer(customer));
+        this.props.onSaveCustomer(e);
     }
 
     renderSaveButton = () => {

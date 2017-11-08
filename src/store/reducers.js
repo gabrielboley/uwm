@@ -24,7 +24,7 @@ export const rootReducer = combineReducers({
     isGuest,
     orders,
     loginError,
+    page,
     products,
-    users,
-    page
+    users
 });

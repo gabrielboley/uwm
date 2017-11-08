@@ -1,22 +1,24 @@
 import Infinite from 'react-infinite';
 import React, { Component } from 'react';
-import { Button, Icon } from 'semantic-ui-react'
+import { connect } from 'react-redux';
+import keygen from 'keygen';
+import { Button, Icon } from 'semantic-ui-react';
 
 import './customerSelection.css';
 import { CustomerQuickView } from '../QuickView/CustomerQuickView';
 
-export class CustomerSelection extends Component {
+class CustomerSelection extends Component {
     state = {
-        viewModal: false,
         currentSort: 'alphabetically',
-        sortedUsers: this.props.customers.sort(this.sortAlphabetically)
+        customer: {},
+        customerIndex: null,
+        sortedUsers: this.props.customers.sort(this.sortAlphabetically),
+        viewModal: false
     }
 
     componentWillMount() {
         if (!this.props.currentSearch) {
-            this.setState({
-                sortedUsers: this.props.customers.sort(this.sortAlphabetically)
-            });
+            this.updateCustomers();
         }
     }
 
@@ -26,16 +28,26 @@ export class CustomerSelection extends Component {
                 sortedUsers: this.filterSearch(nextProps.currentSearch)
             });
         }
+        if (this.props.customers !== nextProps.customers) {
+            this.updateCustomers(nextProps.customers);
+        }
+    }
+
+    updateCustomers(customers = this.props.customers) {
+        this.setState({
+            sortedUsers: customers.sort(this.sortAlphabetically)
+        });
     }
 
     handleCloseModal = (e) => this.setState({ viewModal: false });
 
-    handleOpenModal = (e, customer) => {
+    handleOpenModal = (e, customer, index) => {
         e.preventDefault();
         e.stopPropagation();
         this.setState({
             customer,
-            viewModal: true
+            viewModal: true,
+            customerIndex: index
         });
     }
 
@@ -54,10 +66,10 @@ export class CustomerSelection extends Component {
     ))
 
     renderCustomerTiles = () => {
-        return this.state.sortedUsers.map(customer => (
+        return this.state.sortedUsers.map((customer, index) => (
             <div
                 className="customer-list-item"
-                key={`customer-${customer.id}`}
+                key={`customer-${customer.id}-${keygen.hex(keygen.small)}`}
                 onTouchTap={e => this.props.onUserSelection(customer)}
             >
                 <Icon className="user-list-icon" name="user" />
@@ -67,7 +79,7 @@ export class CustomerSelection extends Component {
                     content="View"
                     floated="right"
                     className="customer-view"
-                    onTouchTap={e => this.handleOpenModal(e, customer)}
+                    onTouchTap={e => this.handleOpenModal(e, customer, index)}
                 />
             </div>
         ));
@@ -88,6 +100,8 @@ export class CustomerSelection extends Component {
                     <CustomerQuickView
                         viewModal
                         customer={this.state.customer}
+                        customerIndex={this.state.customerIndex}
+                        dispatch={this.props.dispatch}
                         handleCloseModal={this.handleCloseModal}
                         onUserEdit={this.props.onUserEdit}
                         onUserSelection={this.props.onUserSelection}
@@ -97,3 +111,11 @@ export class CustomerSelection extends Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        customers: state.customers,
+    };
+}
+
+export default connect(mapStateToProps)(CustomerSelection);

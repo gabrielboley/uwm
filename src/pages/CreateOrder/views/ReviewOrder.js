@@ -56,15 +56,25 @@ export class ReviewOrder extends Component {
         </div>
     )
 
-    processOrder = () => (
-        <div className="complete-order-wrapper">
-            <Button
-                size="huge"
-                primary
-                content="Save Order"
-                className="process-order-button"
-                onTouchTap={this.props.onProcessOrder}
-            />
+    renderFooter = () => (
+        <div>
+            <div className="cancel-order-wrapper">
+                <Button
+                    size="huge"
+                    content="Cancel Order"
+                    className="cancel-order-button"
+                    onTouchTap={this.props.onCancelOrder}
+                />
+            </div>
+            <div className="complete-order-wrapper">
+                <Button
+                    size="huge"
+                    primary
+                    content="Save Order"
+                    className="process-order-button"
+                    onTouchTap={this.props.onProcessOrder}
+                />
+            </div>
         </div>
     )
 
@@ -75,7 +85,7 @@ export class ReviewOrder extends Component {
                 <div className="items-text">Items</div>
                 {this.renderItems()}
                 {this.addItemButton()}
-                {this.processOrder()}
+                {this.renderFooter()}
             </div>
         );
     }

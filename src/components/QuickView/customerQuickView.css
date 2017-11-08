@@ -1,3 +1,19 @@
 .customer-quick-view-wrapper .content .description .quick-view-actions {
   margin-bottom: 10px;
 }
+
+.customer-quick-view-wrapper .content .description .delete-customer {
+  margin-right: 10px;
+}
+
+.customer-quick-view-wrapper .content .description .confirm-delete-customer {
+  margin: 20px auto;
+  display: block;
+  width: 330px;
+  overflow: hidden;
+}
+
+.customer-quick-view-wrapper .delete-confirm .confirm-message {
+  text-align: center;
+  font-size: 24px;
+}

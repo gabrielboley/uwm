@@ -24,11 +24,13 @@ export const CustomerType = ({onNewUserClick, onCustomerSelectClick, onGuestOpti
                 src="/images/svg/existing_users.svg"
             />
         </div>
-        <div
-            className="guest-button"
-            onTouchTap={e => onGuestOption(e)}
-        >
-            <p>Guest</p>
-        </div>
+        {!!onGuestOption 
+            && (<div
+                className="guest-button"
+                onTouchTap={e => onGuestOption(e)}
+            >
+                <p>Guest</p>
+            </div>)
+        }
     </div>
 )

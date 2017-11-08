@@ -34,6 +34,7 @@ export class AddItem extends Component {
             results: [],
             notes: '',
             value: "",
+            storedItemName: "",
             nameInputHasChanged: false
         };
     }
@@ -99,7 +100,8 @@ export class AddItem extends Component {
         this.props.handleAddItem(item.result, index);
         this.setState({
             item: item.result,
-            value: item.result.name
+            value: item.result.name,
+            storedValue: ''
         });
     }
 
@@ -122,6 +124,30 @@ export class AddItem extends Component {
     }
 
     handleDeliveryChange =(e, { value }) => this.setState({ delivery: value });
+    
+    handleNameBlur = () => {
+        if (this.state.item && this.state.storedItemName) {
+            this.setState(prevState => ({
+                item: {
+                    ...prevState.item,
+                    name: prevState.storedItemName
+                },
+                storedItemName: ''
+            }))
+        }
+    }
+
+    handleNameFocus = () => {
+        if (this.state.item && this.state.item.name) {
+            this.setState(prevState => ({
+                item: {
+                    ...prevState.item,
+                    name: ''
+                },
+                storedItemName: prevState.item.name
+            }))
+        }
+    }
 
     handleNotes = (e, { value }) => {
         const { index } = this.props;
@@ -318,6 +344,8 @@ export class AddItem extends Component {
                                     placeholder='Item Name'
                                     className="sixteen wide field"
                                     resultRenderer={this.renderResults}
+                                    onBlur={this.handleNameBlur}
+                                    onFocus={this.handleNameFocus}
                                     onResultSelect={(e, item) => this.handleResultSelect(e, item, index)}
                                     onSearchChange={this.handleSearchChange}
                                 />

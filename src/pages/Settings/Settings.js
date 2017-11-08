@@ -1,14 +1,27 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import keygen from 'keygen';
 import { Card, Header, Button } from 'semantic-ui-react';
+
+import {
+    CREATE_NEW,
+    CUSTOMER_SELECTION,
+    EXISTING_SELECTION
+} from '../../consts/views';
 
 import './settings.css';
 import Users from '../../components/Users/Users';
 import MyAccount from '../../components/MyAccount/MyAccount';
 import Products from '../../components/Products/Products';
+import { CustomerType } from '../../pages/CreateOrder/views/CustomerSelection';
+import CustomerSelection from '../../components/CustomerSelection/CustomerSelection';
+import { AddNewCustomer } from '../../components/AddNewCustomer';
+import { updateCustomer, removeActiveCustomer  } from '../../pages/CreateOrder/createOrder.actions';
 
-export default class Settings extends Component {
+class Settings extends Component {
     state = {
-        view: 'menu'
+        view: 'menu',
+        currentSearch: ''
     }
 
     handleRouteChange = (e, view) => {
@@ -17,21 +30,57 @@ export default class Settings extends Component {
         this.setState({ view });
     }
 
+    onAddItemClick = (shouldReset, e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const view = 'ADD_ITEM';
+        const itemsToAdd = [keygen.hex(keygen.small)];
+        let { currentItems } = this.state;
+        if (shouldReset) {
+            currentItems = {};
+        }
+        this.setState({ currentItems, itemsToAdd, view });
+    }
+
+    onClearActiveUser = () => {
+        this.props.dispatch(removeActiveCustomer());
+        this.setState({
+            view: CUSTOMER_SELECTION
+        });
+    }
+
+    onNewUserClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.setState({
+            view: CREATE_NEW
+        });
+    }
+
+    onUserEdit = (user) => {
+        this.props.dispatch(updateCustomer(user));
+        this.setState({
+            view: 'confirm-customer'
+        });
+    }
+
+    onUserSelection = (user) => {
+        return null;
+    }
+
+    onCustomerSelectClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.setState({
+            view: EXISTING_SELECTION
+        });
+    }
+
     renderBackButton = () => {
         const { view } = this.state;
-        let touchEvent;
 
         if (view === 'menu') {
             return null;
-        }
-
-        if (
-            view === 'product' || 
-            view === 'customers' ||
-            view === 'users' ||
-            view === 'my-account'
-        ) {
-            touchEvent = () => this.setState({ view: 'menu' });
         }
 
         return (
@@ -40,7 +89,7 @@ export default class Settings extends Component {
                     size="huge"
                     content="Back to Settings Menu"
                     className="next-step-button"
-                    onTouchTap={touchEvent}
+                    onTouchTap={() => this.setState({ view: 'menu' })}
                 />
             </div>
         )
@@ -58,6 +107,27 @@ export default class Settings extends Component {
             case 'products': {
                 return <Products handleRouteChange={this.handleRouteChange}/>
             }
+            case 'customers': {
+                return <CustomerType
+                    onNewUserClick={this.onNewUserClick}
+                    onCustomerSelectClick={this.onCustomerSelectClick}
+                />
+            }
+            case CREATE_NEW: {
+                return <AddNewCustomer
+                    dispatch={this.props.dispatch}
+                    onSaveCustomer={this.onCustomerSelectClick}
+                />;
+            }
+            case EXISTING_SELECTION: {
+                return <CustomerSelection
+                    dispatch={this.props.dispatch}
+                    onNewUserClick={this.onNewUserClick}
+                    onUserSelection={this.onUserSelection}
+                    onUserEdit={this.onUserEdit}
+                    currentSearch={this.state.currentSearch}
+                />
+            }
             default:
                 return null;
         }
@@ -71,7 +141,7 @@ export default class Settings extends Component {
         };
         return (
             <div className="settings-container">
-                <div className="settings-content">
+                <div className={`settings-content ${this.state.view}`}>
                     <Header
                         dividing
                         icon="settings"
@@ -121,3 +191,12 @@ export default class Settings extends Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        activeCustomer: state.activeCustomer,
+        customers: state.customers,
+    };
+}
+
+export default connect(mapStateToProps)(Settings);

@@ -20,11 +20,11 @@ import { CustomerType } from './views/CustomerSelection';
 import { updatePageInView } from '../../uwm/uwm.actions';
 import { ConfirmCustomer } from './views/ConfirmCustomer';
 import { AddNewCustomer } from '../../components/AddNewCustomer';
-import { CustomerSelection } from '../../components/CustomerSelection';
+import CustomerSelection from '../../components/CustomerSelection/CustomerSelection';
 import { addNewOrder, toggleGuest, updateCustomer, removeActiveCustomer } from './createOrder.actions';
 
 class CreateOrder extends Component {
-    state = {
+    initialState = {
         itemsToAdd: [keygen.hex(keygen.small)],
         currentItems: {},
         currentSearch: '',
@@ -32,6 +32,8 @@ class CreateOrder extends Component {
         shipOrPickupAll: '',
         view: CUSTOMER_SELECTION
     }
+
+    state = this.initialState;
 
     handleAddItem = (item, key) => {
         const { currentItems } = this.state;
@@ -82,6 +84,13 @@ class CreateOrder extends Component {
         const { itemsToAdd } = this.state;
         itemsToAdd.push(keygen.hex(keygen.small));
         this.setState({ itemsToAdd });
+    }
+
+    onCancelOrder = () => {
+        this.setState({
+            ...this.initialState,
+            view: CONFIRM_CUSTOMER
+        });
     }
 
     onProcessOrder = () => {
@@ -206,17 +215,26 @@ class CreateOrder extends Component {
         const { view } = this.state;
         let touchEvent = this.onClearActiveUser;
 
-        if (view === 'add-item') {
+        if (view === CUSTOMER_SELECTION || view === REVIEW_ORDER) {
+            return null;
+        }
+
+        if (view === ADD_ITEM) {
             touchEvent = this.props.isGuest
                 ? this.onClearActiveUser
                 : () => this.setState({ view: CONFIRM_CUSTOMER });
         }
 
-        if (view === CUSTOMER_SELECTION
-            || view === CREATE_CUSTOMER_GUEST) {
+        if (view === CONFIRM_CUSTOMER) {
             touchEvent = this.props.isGuest
                 ? this.onClearActiveUser
-                : () => this.setState({ view: 'existing-selection' });
+                : () => this.setState({ view: EXISTING_SELECTION });
+        }
+
+        if (view === CREATE_CUSTOMER_GUEST) {
+            touchEvent = this.props.isGuest
+                ? this.onClearActiveUser
+                : () => this.setState({ view: EXISTING_SELECTION });
         }
 
         return (
@@ -280,7 +298,10 @@ class CreateOrder extends Component {
                 );
             }
             case CREATE_NEW: {
-                return <AddNewCustomer dispatch={this.props.dispatch}/>;
+                return <AddNewCustomer 
+                    dispatch={this.props.dispatch}
+                    onSaveCustomer={this.onCustomerSelectClick}
+                />;
             }
             case CONFIRM_CUSTOMER: {
                 return (
@@ -294,7 +315,7 @@ class CreateOrder extends Component {
             case EXISTING_SELECTION: {
                 return (
                     <CustomerSelection
-                        customers={this.props.customers}
+                        dispatch={this.props.dispatch}
                         onNewUserClick={this.onNewUserClick}
                         onUserSelection={this.onUserSelection}
                         onUserEdit={this.onUserEdit}
@@ -305,6 +326,7 @@ class CreateOrder extends Component {
             case CUSTOMER_SELECTION: {
                 return (
                     <CustomerType
+                        includeGuest
                         onGuestOption={this.onGuestOption}
                         onNewUserClick={this.onNewUserClick}
                         onCustomerSelectClick={this.onCustomerSelectClick}
@@ -312,7 +334,11 @@ class CreateOrder extends Component {
                 );
             }
             case CREATE_CUSTOMER_GUEST: {
-                return <AddNewCustomer isGuest dispatch={this.props.dispatch}/>;
+                return <AddNewCustomer 
+                    isGuest 
+                    dispatch={this.props.dispatch}
+                    onSaveCustomer={this.onCustomerSelectClick}
+                />;
             }
             case REVIEW_ORDER: {
                 return (
@@ -326,7 +352,7 @@ class CreateOrder extends Component {
                         onAddAnotherItem={this.onAddItemClick}
                         onProcessOrder={this.onProcessOrder}
                         onClearActiveUser={this.onClearActiveUser}
-                        onProcessOrder={this.onProcessOrder}
+                        onCancelOrder={this.onCancelOrder}
                     />
                 );
             }
