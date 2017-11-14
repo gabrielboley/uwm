@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { Card, Divider, Header, Icon, Button, Label, List, TextArea } from 'semantic-ui-react';
 
-import './inProgress.css';
-import { updateOrder } from './inProgress.actions';
+import './OrderEdit.css';
+import { updateOrder } from './OrderEdit.actions';
 import { orderNumber } from '../../utils/orderNumber';
 
 const replaceDollar = /\$/g;
@@ -13,7 +13,7 @@ const initialState = {
     order: null,
     orderComplete: false
 };
-class InProgress extends Component {
+class OrderEdit extends Component {
     componentWillUnmount() {
         this.setState({ initialState });
     }
@@ -31,7 +31,9 @@ class InProgress extends Component {
         });
     }
 
-    onBackToInProgress = () => this.setState({ edit: false, order: null });
+    onBackToInProgress = () => {
+        this.setState({ edit: false, order: null });
+    }
 
     onChangeNotes = (e, { value }) => {
         const { order } = this.state;
@@ -43,14 +45,47 @@ class InProgress extends Component {
     }
 
     onSaveOrder = () => {
-        this.props.dispatch(updateOrder(this.state.order));
+        const orderIsComplete = this.getOrderIsComplete(this.state.order);
+        this.setState({
+            edit: false,
+            order: {
+                ...this.state.order,
+                isOpen: orderIsComplete ? false : true,
+                status: orderIsComplete ? 'complete' : 'open'
+            },
+            orderComplete: orderIsComplete ? false : true
+        }, () => {
+            this.props.dispatch(updateOrder(this.state.order));
+        });
+    }
+
+    getOrderIsComplete = (order) => {
+        const orderSize = Object.keys(order.orderItems).length;
+        const itemsCompleted = [];
+        for (let key in order.orderItems) {
+            if (order.orderItems[key].isCompleted) {
+                itemsCompleted.push(order.orderItems[key]);
+            }
+        }
+        return orderSize === itemsCompleted.length;
     }
 
     onToggleOrderItem = (key, order) => {
-        order.orderItems[key].isCompleted = !order.orderItems[key].isCompleted;
+        if (this.props.status === 'completed') {
+            return null;
+        }
         this.setState({
             needsToSave: true,
-            order
+            order: {
+                ...order,
+                orderItems: {
+                    ...order.orderItems,
+                    [key]: {
+                        ...order.orderItems[key],
+                        isCompleted: !order.orderItems[key].isCompleted
+                    }
+                }
+            }
         });
     }
 
@@ -218,9 +253,10 @@ class InProgress extends Component {
         );
     }
 
-    renderOpenOrders = () => {
-        const {orders, customers } = this.props;
-        return orders.map(order => {
+    renderOrders = () => {
+        const { orders, customers, status } = this.props;
+        const orderStatus = status === 'in-progress' ? 'open' : 'complete';
+        return orders.filter(order => order.status === orderStatus).map(order => {
             const customer = customers.filter(customer => customer.id === order.customerId)[0];
             return (
                 <Card
@@ -273,12 +309,14 @@ class InProgress extends Component {
                                 </div>
                                 <div className="order-actions">
                                     <div className="tailor-order">
-                                        <Button
-                                            primary
-                                            content="Edit Order"
-                                            className="process-order-button order-buttons"
-                                            onTouchTap={e => this.onEditOrder(e, order, customer)}
-                                        />
+                                        { this.props.status === 'in-progress' 
+                                            && <Button
+                                                primary
+                                                content="Edit Order"
+                                                className="process-order-button order-buttons"
+                                                onTouchTap={e => this.onEditOrder(e, order, customer)}
+                                            />
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -298,10 +336,10 @@ class InProgress extends Component {
                 <Header
                     dividing
                     icon="cut"
-                    content="Orders in Progress"
+                    content={this.props.status === 'in-progress' ? "Orders in Progress" : "Completed Orders"}
                 />
                 <div className="in-progress-wrapper">
-                    {this.renderOpenOrders()}
+                    {this.renderOrders()}
                 </div>
                 <div className="in-progress-footer">
 
@@ -320,4 +358,4 @@ const mapStateToProps = (state) => {
     };
 }
 
-export default connect(mapStateToProps)(InProgress);
+export default connect(mapStateToProps)(OrderEdit);

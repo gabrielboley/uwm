@@ -11,7 +11,7 @@ import { updateUser, updatePageInView } from './uwm.actions';
 // Pages
 import Login from '../pages/Login/Login';
 import Settings from '../pages/Settings/Settings';
-import InProgress from '../pages/InProgress/InProgress';
+import OrderEdit from '../pages/OrderEdit/OrderEdit';
 import CreateOrder from '../pages/CreateOrder/CreateOrder';
 // Components
 import { LeftNav } from '../components/LeftNav';
@@ -57,7 +57,14 @@ class Uwm extends Component {
                 return {
                   class: 'in-progress',
                   header: 'In Progress',
-                  view: <InProgress />
+                  view: <OrderEdit status={'in-progress'} />
+                };
+            }
+            case 'completed': {
+                return {
+                  class: 'completed',
+                  header: 'Completed',
+                  view: <OrderEdit status={'completed'}/>
                 };
             }
             default: {

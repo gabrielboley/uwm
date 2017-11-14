@@ -9,12 +9,12 @@ export class LeftNav extends Component {
     state = {
         logoutModal: false
     };
-    completeImg = this.props.page === 'complete' ? 'complete-active.svg' : 'complete.svg';
+    completeImg = this.props.page === 'completed' ? 'complete-active.svg' : 'complete.svg';
     inProgressImg = this.props.page === 'in-progress' ? 'in-progress-active.svg' : 'in-progress.svg';
     createOrderImg = this.props.page === 'create-order' ? 'create-order-active.svg' : 'create-order.svg';
 
     componentWillReceiveProps(nextProps) {
-        this.completeImg = nextProps.page === 'complete' ? 'complete-active.svg' : 'complete.svg';
+        this.completeImg = nextProps.page === 'completed' ? 'complete-active.svg' : 'complete.svg';
         this.inProgressImg = nextProps.page === 'in-progress' ? 'in-progress-active.svg' : 'in-progress.svg';
         this.createOrderImg = nextProps.page === 'create-order' ? 'create-order-active.svg' : 'create-order.svg';
     }
@@ -62,7 +62,7 @@ export class LeftNav extends Component {
                         <div className="in-progress-text">In Progress</div>
                     </Button>
                     <Button
-                        onTouchTap={e => this.onPageClick('complete')}
+                        onTouchTap={e => this.onPageClick('completed')}
                         className="nav-item-wrapper complete-wrapper"
                     >
                         <img
