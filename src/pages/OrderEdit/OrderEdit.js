@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { Card, Divider, Header, Icon, Button, Label, List, TextArea } from 'semantic-ui-react';
+import { Card, Divider, Header, Icon, Button, Label, List, Input, TextArea } from 'semantic-ui-react';
 
 import './OrderEdit.css';
 import { updateOrder } from './OrderEdit.actions';
@@ -70,10 +70,40 @@ class OrderEdit extends Component {
         return orderSize === itemsCompleted.length;
     }
 
+    onEditTracking = () => {
+        const trackingInfo = this.state.order.trackingInfo
+            || {
+                carrier: '',
+                trackingNumber: ''
+            };
+        this.setState({
+            trackingEdit: true,
+            order: {
+                ...this.state.order,
+                trackingInfo
+            }
+        });
+    }
+
+    onSaveTracking = () => {
+        this.setState({
+            trackingEdit: false
+        })
+    }
+
+    onTrackingChange = (e, type) => {
+        this.setState({
+            order: {
+                ...this.state.order,
+                trackingInfo: {
+                    ...this.state.order.trackingInfo,
+                    [type]: e.target.value
+                }
+            }
+        });
+    }
+
     onToggleOrderItem = (key, order) => {
-        if (this.props.status === 'completed') {
-            return null;
-        }
         this.setState({
             needsToSave: true,
             order: {
@@ -145,9 +175,46 @@ class OrderEdit extends Component {
                         fluid
                         color="blue"
                         className="edit-order-card-wrapper"
-                        header={<div key="customer-name" className="order-header">{customer.name}</div>}
+                        header={
+                            <div key="customer-name" className="order-header">
+                                {customer.name}
+                            </div>
+                            }
                         extra={
                             <div className="edit-order-content">
+                                {this.state.trackingEdit
+                                    && <div className="tracking-form">
+                                        <Input
+                                            label="Carrier"
+                                            onChange={(e) => {this.onTrackingChange(e, 'carrier')}}
+                                            value={this.state.order.trackingInfo.carrier}
+                                        />
+                                        <Input
+                                            label="Tracking No."
+                                            onChange={(e) => {this.onTrackingChange(e, 'trackingNumber')}}
+                                            value={this.state.order.trackingInfo.trackingNumber}
+                                        />
+                                        <Button
+                                            primary
+                                            content="Save Tracking Info"
+                                            className="order-buttons"
+                                            onTouchTap={e => this.onSaveTracking()}
+                                        />
+                                    </div>
+                                }
+                                {(this.props.status === 'completed'
+                                    && !this.state.trackingEdit)
+                                    && <div className="tracking-info">
+                                        <div className="carrier">Carrier: {this.state.order.trackingInfo && this.state.order.trackingInfo.carrier}</div>
+                                        <div className="tracking-number">Tracking No.: {this.state.order.trackingInfo && this.state.order.trackingInfo.trackingNumber}</div>
+                                        <Button
+                                            primary
+                                            content="Edit Tracking Info"
+                                            className="order-buttons"
+                                            onTouchTap={e => this.onEditTracking()}
+                                        />
+                                    </div>
+                                }
                                 <div className="order-item-cards">
                                     <h3 className="order-items-header">Items</h3>
                                     {Object.keys(order.orderItems).map(key => (
@@ -309,14 +376,12 @@ class OrderEdit extends Component {
                                 </div>
                                 <div className="order-actions">
                                     <div className="tailor-order">
-                                        { this.props.status === 'in-progress' 
-                                            && <Button
-                                                primary
-                                                content="Edit Order"
-                                                className="process-order-button order-buttons"
-                                                onTouchTap={e => this.onEditOrder(e, order, customer)}
-                                            />
-                                        }
+                                        <Button
+                                            primary
+                                            content="Edit Order"
+                                            className="process-order-button order-buttons"
+                                            onTouchTap={e => this.onEditOrder(e, order, customer)}
+                                        />
                                     </div>
                                 </div>
                             </div>

@@ -7,7 +7,7 @@ import {
     UPDATE_CUSTOMER,
     REMOVE_ACTIVE_CUSTOMER
 } from './createOrder.actions';
-import { UPDATE_ORDER } from '../InProgress/inProgress.actions';
+import { UPDATE_ORDER } from '../OrderEdit/OrderEdit.actions';
 import { ADD_NEW_CUSTOMER } from '../../components/AddNewCustomer/addNewCustomer.actions';
 import { DELETE_CUSTOMER } from '../../components/QuickView/customerQuickView.actions';
 

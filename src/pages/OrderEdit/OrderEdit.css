@@ -107,6 +107,48 @@
     width: 100%;
 }
 
+.edit-order-card-wrapper .edit-order-content .tracking-info {
+    width: 100%;
+    margin:10px;
+}
+
+.edit-order-card-wrapper .edit-order-content .tracking-info .carrier {
+    float: left;
+    width: 33%;
+    margin-bottom: 10px;
+}
+
+.edit-order-card-wrapper .edit-order-content .tracking-info .tracking-number {
+    margin-bottom: 10px;
+}
+
+.edit-order-card-wrapper .edit-order-content .tracking-info .order-buttons {
+    padding: 10px;
+    width: 33%;
+    float: right;
+    margin-top:6px;
+}
+
+.edit-order-card-wrapper .edit-order-content .tracking-form .order-buttons {
+    padding: 10px;
+    width: 33%;
+    float: right;
+    margin-right:9px;
+}
+
+.edit-order-card-wrapper .edit-order-content .tracking-form .input {
+    margin-bottom: 8px;
+}
+
+.edit-order-card-wrapper .edit-order-content .tracking-form .input:first-child {
+    margin-right: 80px;
+    width: 100px;
+}
+
+.edit-order-card-wrapper .edit-order-content .tracking-form .input:nth-child(2) {
+    width: 360px;
+}
+
 .edit-order-card-wrapper .item-details-wrapper .order-actions-wrapper {
     background-color: #ffffff;
     color: #444444;
