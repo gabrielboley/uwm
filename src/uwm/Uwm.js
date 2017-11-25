@@ -41,7 +41,7 @@ class Uwm extends Component {
     }
 
     componentWillReceiveProps() {
-        this.saveStoreToLocalStorage()
+        this.saveStoreToLocalStorage();
     }
 
     saveStoreToLocalStorage = () => {

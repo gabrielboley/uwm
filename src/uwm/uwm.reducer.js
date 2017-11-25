@@ -2,11 +2,14 @@ import store from 'store';
 
 import { UPDATE_USER_SETTINGS } from '../pages/Settings/settings.actions';
 import { LOG_USER_IN, LOG_USER_OUT } from '../pages/Login/login.actions';
-import { UPDATE_USER, UPDATE_PAGE_IN_VIEW } from './uwm.actions';
+import { UPDATE_USER, UPDATE_PAGE_IN_VIEW, UPDATE_STORE } from './uwm.actions';
 
 export const activeUser = (state = null, action) => {
     let isActiveUser;
     switch (action.type) {
+        case UPDATE_STORE: {
+            return action.state.activeUser;
+        }
         case LOG_USER_IN:
         case UPDATE_USER: {
             store.set('user', action.user);
@@ -34,6 +37,9 @@ export const activeUser = (state = null, action) => {
 
 export const page = (state = 'create-order', action) => {
     switch (action.type) {
+        case UPDATE_STORE: {
+            return action.state.page;
+        }
         case UPDATE_PAGE_IN_VIEW: {
             return action.page;
         }
