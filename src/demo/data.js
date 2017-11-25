@@ -1261,6 +1261,7 @@ export const data = {
             "description": "cras pellentesque volutpat dui maecenas tristique est et tempus semper",
             "canBeAltered": false,
             "canBeShipped": false,
+            "showPrice": true,
             "price": "$3230.57",
             "images": "IMAGE_ARRAY",
             "notes": null,

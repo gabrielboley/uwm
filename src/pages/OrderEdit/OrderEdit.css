@@ -4,23 +4,28 @@
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     height: 100vh;
-    padding: 20px;
+    padding: 20px 0;
 }
 
 .in-progress-container .ui.dividing.header {
     background-color: #ffffff;
     height: 60px;
     padding-top: 20px;
+    padding-left: 20px;
     position: absolute;
+    margin: 0;
     top: 0;
-    width: 75vw;
+    width: 80vw;
     z-index: 10;
 }
 
 .in-progress-container .edit-order-wrapper,
 .in-progress-container .in-progress-wrapper {
-    margin-top: 60px;
+    margin-top: 37px;
     width: 100%;
+    overflow-y: scroll;
+    height: 89vh;
+    padding: 20px;
 }
 
 .edit-order-card-wrapper .order-header {
@@ -68,7 +73,6 @@
     padding: 15px;
     right: 0;
     width: 100%;
-    z-index: 100;
 }
 
 .edit-order-card-wrapper .edit-order-content {
@@ -191,4 +195,9 @@
     padding-top: 20px;
     position: absolute;
     width: 100%;
+}
+
+.update-order-number-modal .content h2 {
+    text-align: center;
+    height: 30px;
 }

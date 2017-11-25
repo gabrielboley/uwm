@@ -7,11 +7,12 @@
 }
 .ui.primary.button.add-new-product-confirm,
 .products-wrapper .ui.primary.button.add-new-product {
-    bottom: 12px;
-    height: 45px;
+    bottom: 11px;
+    height: 50px;
     font-size: 18px;
     position: fixed;
-    width: 93%;
+    width: 50%;
+    right: 10px;
     z-index: 20;
 }
 

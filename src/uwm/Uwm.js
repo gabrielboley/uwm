@@ -7,7 +7,7 @@ import { Sidebar } from 'semantic-ui-react';
 import "./Uwm.css";
 // Utils
 import { needsToLogin } from './uwm.viewStates';
-import { updateUser, updatePageInView } from './uwm.actions';
+import { updateUser, updatePageInView, updateStore } from './uwm.actions';
 // Pages
 import Login from '../pages/Login/Login';
 import Settings from '../pages/Settings/Settings';
@@ -26,6 +26,10 @@ class Uwm extends Component {
             this.isMobile = true;
         }
 
+        if (store.get('uwm_state')) {
+            dispatch(updateStore(store.get('uwm_state')));
+        }
+
         if (!activeUser && needsToLogin()) {
             dispatch(updatePageInView('login'))
             return;
@@ -34,6 +38,15 @@ class Uwm extends Component {
         if(!activeUser) {
             dispatch(updateUser(store.get('user')));
         }
+    }
+
+    componentWillReceiveProps() {
+        this.saveStoreToLocalStorage()
+    }
+
+    saveStoreToLocalStorage = () => {
+        console.log('setting local state'); // eslint-disable-line no-console
+        store.set('uwm_state', this.props.state);
     }
 
     renderContent = () => {
@@ -102,7 +115,8 @@ class Uwm extends Component {
 function mapStateToProps(state) {
     return {
         activeUser: state.activeUser,
-        page: state.page
+        page: state.page,
+        state: state
     };
 }
 
