@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { Card, Divider, Header, Icon, Button, Label, List, Input, TextArea } from 'semantic-ui-react';
+import { Card, Divider, Header, Icon, Button, Label, List, Input, TextArea, Modal } from 'semantic-ui-react';
 
 import './OrderEdit.css';
-import { updateOrder } from './OrderEdit.actions';
+import { NumberPad } from './NumberPad';
+import { updateOrder, updateOrderNumber } from './OrderEdit.actions';
 import { orderNumber } from '../../utils/orderNumber';
 
 const replaceDollar = /\$/g;
@@ -11,7 +12,9 @@ const initialState = {
     customer: null,
     edit: false,
     order: null,
-    orderComplete: false
+    orderComplete: false,
+    renderOrderNumberModal: false,
+    newOrderNumber: ''
 };
 class OrderEdit extends Component {
     componentWillUnmount() {
@@ -57,6 +60,59 @@ class OrderEdit extends Component {
         }, () => {
             this.props.dispatch(updateOrder(this.state.order));
         });
+    }
+
+    onOpenOrderModal = (e, order) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const { renderOrderNumberModal } = this.state;
+        this.setState({
+            order,
+            renderOrderNumberModal: !renderOrderNumberModal,
+        });
+    }
+
+    onCloseOrderModal = () => {
+        this.setState({...initialState});
+    }
+
+    onUpdateOrderNumber = () => {
+        const { order, newOrderNumber } = this.state;
+
+        if (newOrderNumber.length !== 0) {
+            this.props.dispatch(updateOrderNumber(order.id, newOrderNumber));
+        }
+        this.setState({...initialState});
+    }
+
+    onNumberClick = (e, number) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const { newOrderNumber } = this.state;
+        this.setState({
+            newOrderNumber: `${newOrderNumber}${number}`
+        });
+    }
+
+    onNumberDelete = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        let { newOrderNumber } = this.state;
+        if (newOrderNumber.length === 0) {
+            return;
+        }
+        newOrderNumber = newOrderNumber.slice(0, -1);
+        this.setState({ newOrderNumber });
+    }
+
+    onNumberClear = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        this.setState({ newOrderNumber: '' });
     }
 
     getOrderIsComplete = (order) => {
@@ -320,6 +376,44 @@ class OrderEdit extends Component {
         );
     }
 
+    renderOrderNumberUpdate = () => {
+        const { newOrderNumber, renderOrderNumberModal } = this.state;
+        return (
+            <Modal
+                size='small'
+                open={renderOrderNumberModal}
+                className="update-order-number-modal"
+                trigger={
+                    <Button
+                        basic
+                        inverted
+                        icon="log out"
+                        content="Logout"
+                        style={{ height: '75px' }}
+                    />
+                }
+            >
+                <Header icon='tag' content='Update Order Number' />
+                <Modal.Content>
+                    <h2>{newOrderNumber}</h2>
+                    <NumberPad
+                        onNumberClick={this.onNumberClick}
+                        onNumberClear={this.onNumberClear}
+                        onNumberDelete={this.onNumberDelete}
+                    />
+                    <Divider hidden/>
+                    <Button color='green' onTouchTap={this.onUpdateOrderNumber} fluid>
+                        <Icon name='checkmark' /> Update
+                    </Button>
+                    <Divider hidden/>
+                    <Button color='red' onTouchTap={this.onCloseOrderModal} fluid>
+                        <Icon name='close' /> Cancel
+                    </Button>
+                </Modal.Content>
+            </Modal>
+        )
+    }
+
     renderOrders = () => {
         const { orders, customers, status } = this.props;
         const orderStatus = status === 'in-progress' ? 'open' : 'complete';
@@ -337,6 +431,7 @@ class OrderEdit extends Component {
                             ribbon
                             color='blue'
                             key="logged-in"
+                            onTouchTap={e => this.onOpenOrderModal(e, order)}
                             style={{ position: 'absolute', top: '10px', left: '-15px' }}
                         >
                             #{orderNumber(order.id)}
@@ -409,6 +504,7 @@ class OrderEdit extends Component {
                 <div className="in-progress-footer">
 
                 </div>
+                {this.renderOrderNumberUpdate()}
             </div>
         );
     }

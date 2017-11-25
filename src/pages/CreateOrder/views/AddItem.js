@@ -352,17 +352,19 @@ export class AddItem extends Component {
                             </Form.Group>
                             <Form.Group>
                                 <Form.Input
-                                    width={8}
+                                    width={(item && item.showPrice) ? 8 : 16}
                                     control={Input}
                                     placeholder="Item Type"
                                     value={this.renderPlaceholder('garmentType')}
                                 />
-                                <Form.Input
-                                    width={8}
-                                    control={Input}
-                                    placeholder="Price"
-                                    value={this.renderPlaceholder('price')}
-                                />
+                                {item && item.showPrice &&
+                                    <Form.Input
+                                        width={8}
+                                        control={Input}
+                                        placeholder="Price"
+                                        value={this.renderPlaceholder('price')}
+                                    />
+                                }
                             </Form.Group>
                             <Form.Group>
                                 {this.renderAlterationInput()}

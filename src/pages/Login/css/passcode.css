@@ -1,33 +1,33 @@
-.password-wrapper .passcode-buttons .passcode-button {
+.passcode-buttons .passcode-button {
   margin: 1px;
   padding: 5px;
   width: 30%;
 }
-.password-wrapper .passcode-buttons .passcode-button .button-wrapper {
+.passcode-buttons .passcode-button .button-wrapper {
   min-height: 100px;
 }
 @media (max-width: 767px) {
-  .password-wrapper .passcode-buttons .passcode-button .button-wrapper {
+  .passcode-buttons .passcode-button .button-wrapper {
     min-height: 60px;
   }
 }
-.password-wrapper .passcode-buttons .passcode-button .button-wrapper .button-text {
+.passcode-buttons .passcode-button .button-wrapper .button-text {
   font-size: 36px;
   height: 70px;
   padding-top: 30px;
   width: 100%;
 }
 @media (max-width: 767px) {
-  .password-wrapper .passcode-buttons .passcode-button .button-wrapper .button-text {
+  .passcode-buttons .passcode-button .button-wrapper .button-text {
     font-size: 24px;
     height: 40px;
     padding-top: 16px;
   }
 }
-.password-wrapper .passcode-buttons .passcode-button .button-wrapper .button-sub-text {
+.passcode-buttons .passcode-button .button-wrapper .button-sub-text {
   width: 100%;
 }
-.password-wrapper .passcode {
+.passcode {
   height: 70px;
   text-align: left;
 }

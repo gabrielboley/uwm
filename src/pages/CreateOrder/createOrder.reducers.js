@@ -7,9 +7,9 @@ import {
     UPDATE_CUSTOMER,
     REMOVE_ACTIVE_CUSTOMER
 } from './createOrder.actions';
-import { UPDATE_ORDER } from '../OrderEdit/OrderEdit.actions';
-import { ADD_NEW_CUSTOMER } from '../../components/AddNewCustomer/addNewCustomer.actions';
+import { UPDATE_ORDER, UPDATE_ORDER_NUMBER } from '../OrderEdit/OrderEdit.actions';
 import { DELETE_CUSTOMER } from '../../components/QuickView/customerQuickView.actions';
+import { ADD_NEW_CUSTOMER } from '../../components/AddNewCustomer/addNewCustomer.actions';
 
 export const activeCustomer = (state = null, action) => {
     switch (action.type) {
@@ -77,6 +77,21 @@ export const orders = (state = data.orders, action) => {
             ));
             orders[orderIndex] = action.order;
             return orders;
+        }
+        case UPDATE_ORDER_NUMBER: {
+            orderIndex = orders.findIndex(order => (
+                order.id === action.orderId
+            ));
+            const hasExistingOrder = orders.findIndex(order => (
+                Number(order.id) === Number(action.newNumber)
+            ));
+            if (hasExistingOrder !== -1) {
+                // order number already taken
+                console.log('order exists'); // eslint-disable-line no-console
+            } else {
+                orders[orderIndex].id = action.newNumber;
+            }
+            return orders
         }
         default: {
             return state;

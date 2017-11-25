@@ -36,7 +36,7 @@
 
 .nav-menu-wrapper.create-order .ui.button.nav-item-wrapper.create-order-wrapper,
 .nav-menu-wrapper.in-progress .ui.button.nav-item-wrapper.in-progress-wrapper,
-.nav-menu-wrapper.complete .ui.button.nav-item-wrapper.complete-wrapper {
+.nav-menu-wrapper.completed .ui.button.nav-item-wrapper.complete-wrapper {
     background-color: #ffffff;
     padding: 0;
     border-radius: 4px;
