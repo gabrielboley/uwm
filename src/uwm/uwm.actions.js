@@ -11,7 +11,7 @@ export const updatePageInView = (page) => ({
 });
 
 export const UPDATE_STORE = 'UPDATE_STORE';
-export const updateStore = store => ({
+export const updateStore = state => ({
     type: UPDATE_STORE,
-    store
+    state
 });

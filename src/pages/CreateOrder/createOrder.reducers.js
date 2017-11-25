@@ -10,9 +10,13 @@ import {
 import { UPDATE_ORDER, UPDATE_ORDER_NUMBER } from '../OrderEdit/OrderEdit.actions';
 import { DELETE_CUSTOMER } from '../../components/QuickView/customerQuickView.actions';
 import { ADD_NEW_CUSTOMER } from '../../components/AddNewCustomer/addNewCustomer.actions';
+import { UPDATE_STORE } from '../../uwm/uwm.actions';
 
 export const activeCustomer = (state = null, action) => {
     switch (action.type) {
+        case UPDATE_STORE: {
+            return action.state.activeCustomer;
+        }
         case UPDATE_CUSTOMER: {
             return action.customer;
         }
@@ -28,6 +32,9 @@ export const activeCustomer = (state = null, action) => {
 export const customers = (state = data.customers, action) => {
     let customers;
     switch (action.type) {
+        case UPDATE_STORE: {
+            return action.state.customers;
+        }
         case ADD_NEW_CUSTOMER: {
             customers = state.slice();
             customers.push(action.customer);
@@ -46,6 +53,9 @@ export const customers = (state = data.customers, action) => {
 
 export const activeOrder = (state = null, action) => {
     switch (action.type) {
+        case UPDATE_STORE: {
+            return action.state.activeOrder;
+        }
         default: {
             return state;
         }
@@ -54,6 +64,9 @@ export const activeOrder = (state = null, action) => {
 
 export const isGuest = (state = false, action) => {
     switch (action.type) {
+        case UPDATE_STORE: {
+            return action.state.isGuest;
+        }
         case TOGGLE_GUEST: {
             return !state;
         }
@@ -67,6 +80,9 @@ export const orders = (state = data.orders, action) => {
     let orderIndex;
     const orders = state.slice();
     switch (action.type) {
+        case UPDATE_STORE: {
+            return action.state.orders;
+        }
         case ADD_NEW_ORDER: {
             orders.push(action.order);
             return orders;
