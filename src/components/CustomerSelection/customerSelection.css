@@ -20,6 +20,27 @@
   overflow: hidden;
   padding-bottom: 30px;
 }
+.customer-list .search-form {
+  position: relative;
+}
+.customer-list .search-form i.remove.circle {
+  position: absolute;
+  top: 14px;
+  z-index: 100;
+  left: 6px;
+}
+.customer-list .search-form .input {
+  width: 100%;
+  margin-bottom: 12px;
+}
+.customer-list .search-form .input input{
+  padding-left: 40px;
+}
+.customer-list .customer-selection-wrapper .no-customers {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+}
 .customer-selection-wrapper .customer-list-item:first-of-type {
   border-top: none;
 }

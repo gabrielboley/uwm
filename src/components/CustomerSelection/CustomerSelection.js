@@ -2,7 +2,7 @@ import Infinite from 'react-infinite';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import keygen from 'keygen';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Input } from 'semantic-ui-react';
 
 import './customerSelection.css';
 import { CustomerQuickView } from '../QuickView/CustomerQuickView';
@@ -13,7 +13,9 @@ class CustomerSelection extends Component {
         customer: {},
         customerIndex: null,
         sortedUsers: this.props.customers.sort(this.sortAlphabetically),
-        viewModal: false
+        viewModal: false,
+        customerSearchTerm: '',
+        filteredList: []
     }
 
     componentWillMount() {
@@ -51,6 +53,24 @@ class CustomerSelection extends Component {
         });
     }
 
+    handleFilter = (value) => {
+        const sortedUserCopy = this.state.sortedUsers.slice();
+        this.setState({
+            filteredList: sortedUserCopy.filter(user => (
+                user.name.toLowerCase().includes(value.toLowerCase())
+            ))
+        })
+    }
+
+    onSearchChange = (e) => {
+        const value = e.target.value;
+        this.setState({
+            customerSearchTerm: value && value.length ? value : null
+        }, () => {
+            this.handleFilter(value);
+        })
+    }
+
     sortAlphabetically = (a, b) => {
         if(a.name < b.name) {
             return -1;
@@ -60,34 +80,61 @@ class CustomerSelection extends Component {
         }
         return 0;
     }
+    
+    clearSearch = () => {
+        this.setState({
+            customerSearchTerm: '',
+            filteredList: []
+        });
+    }
 
     filterSearch = term => this.props.customers.filter(customer => (
         customer.name.toLowerCase().includes(term.toLowerCase())
     ))
 
     renderCustomerTiles = () => {
-        return this.state.sortedUsers.map((customer, index) => (
-            <div
-                className="customer-list-item"
-                key={`customer-${customer.id}-${keygen.hex(keygen.small)}`}
-                onTouchTap={e => this.props.onUserSelection(customer)}
-            >
-                <Icon className="user-list-icon" name="user" />
-                {customer.name}
-                <Button
-                    size="medium"
-                    content="View"
-                    floated="right"
-                    className="customer-view"
-                    onTouchTap={e => this.handleOpenModal(e, customer, index)}
-                />
-            </div>
-        ));
+        const customerList = this.state.customerSearchTerm ? this.state.filteredList : this.state.sortedUsers;
+        if (customerList.length) {
+            return customerList.map((customer, index) => (
+                <div
+                    className="customer-list-item"
+                    key={`customer-${customer.id}-${keygen.hex(keygen.small)}`}
+                    onTouchTap={e => this.props.onUserSelection(customer)}
+                >
+                    <Icon className="user-list-icon" name="user" />
+                    {customer.name}
+                    <Button
+                        size="medium"
+                        content="View"
+                        floated="right"
+                        className="customer-view"
+                        onTouchTap={e => this.handleOpenModal(e, customer, index)}
+                    />
+                </div>
+            ));
+        }
+        return <div className="no-customers"><i>There Are No Customers to Display</i></div>
     }
 
     render() {
         return (
             <div className="customer-list">
+                <div className="search-form">
+                    { this.state.customerSearchTerm 
+                        && (<Icon
+                            color="grey" 
+                            name="remove circle" 
+                            size="big"
+                            onTouchTap={this.clearSearch}/>) 
+                    }
+                    <Input
+                        icon='search'
+                        placeholder='Search for Customer'
+                        size='huge'
+                        onChange={this.onSearchChange} 
+                        value={this.state.customerSearchTerm}
+                    />
+                </div>
                 <Infinite
                     elementHeight={45}
                     className="customer-selection-wrapper"
