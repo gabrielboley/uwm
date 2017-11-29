@@ -27,15 +27,13 @@
   position: absolute;
   top: 14px;
   z-index: 100;
-  left: 6px;
+  right: 0;
 }
 .customer-list .search-form .input {
   width: 100%;
   margin-bottom: 12px;
 }
-.customer-list .search-form .input input{
-  padding-left: 40px;
-}
+
 .customer-list .customer-selection-wrapper .no-customers {
   text-align: center;
   font-size: 18px;

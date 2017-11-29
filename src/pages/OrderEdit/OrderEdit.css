@@ -28,6 +28,34 @@
     padding: 20px;
 }
 
+.in-progress-container .in-progress-wrapper .search-form {
+    position: relative;
+}
+
+.in-progress-container .in-progress-wrapper .search-form i.remove.circle {
+    position: absolute;
+    top: 10px;
+    z-index: 100;
+    right: 210px;
+  }
+
+.in-progress-container .in-progress-wrapper .search-form .input {
+    width: 100%;
+}
+
+.in-progress-container .in-progress-wrapper .search-form .input .dropdown.label {
+    min-width:200px;
+}
+.in-progress-container .in-progress-wrapper .search-form .input .dropdown.label .dropdown.icon {
+    float:right;
+}
+
+.in-progress-container .in-progress-wrapper .no-orders {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
 .edit-order-card-wrapper .order-header {
     font-size: 16px;
     font-weight: 500;

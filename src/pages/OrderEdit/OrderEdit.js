@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { Card, Divider, Header, Icon, Button, Label, List, Input, TextArea, Modal } from 'semantic-ui-react';
+import { Card, Divider, Dropdown, Header, Icon, Button, Label, List, Input, TextArea, Modal } from 'semantic-ui-react';
 
 import './OrderEdit.css';
 import { NumberPad } from './NumberPad';
@@ -14,7 +14,16 @@ const initialState = {
     order: null,
     orderComplete: false,
     renderOrderNumberModal: false,
-    newOrderNumber: ''
+    newOrderNumber: '',
+    orderSearch: {
+        term: '',
+        type: 'id',
+        typeOptions: [
+            { key: 'id', text: 'Order Number', value: 'id' },
+            { key: 'name', text: 'Customer Name', value: 'name' }
+        ],
+        filteredOrderList: []
+    }
 };
 class OrderEdit extends Component {
     componentWillUnmount() {
@@ -171,6 +180,54 @@ class OrderEdit extends Component {
                         isCompleted: !order.orderItems[key].isCompleted
                     }
                 }
+            }
+        });
+    }
+
+    handleFilter = (value) => {
+        const ordersListCopy = this.props.orders.slice();
+        this.setState({
+            orderSearch: {
+                ...this.state.orderSearch,
+                filteredOrderList: ordersListCopy.filter(order => (
+                    this.state.orderSearch.type === 'id' 
+                        ? orderNumber(order.id).toLowerCase().includes(value.toLowerCase())
+                        : this.props.customers
+                            .filter(customer => (
+                                customer.id === order.customerId
+                            ))[0].name.toLowerCase().includes(value.toLowerCase())
+                ))
+            }
+        })
+    }
+
+    onSearchChange = (e) => {
+        const value = e.target.value;
+        this.setState({
+            orderSearch: {
+                ...this.state.orderSearch,
+                term: value && value.length ? value : ''
+            }
+        }, () => {
+            this.handleFilter(value);
+        })
+    }
+
+    onSearchTypeChange = (e, data) => {
+        this.setState({
+            orderSearch: {
+                ...this.state.orderSearch,
+                type: data.value
+            }
+        })
+    }
+
+    clearSearch = () => {
+        this.setState({
+            orderSearch: {
+                ...this.state.orderSearch,
+                term: '',
+                filteredOrderList: []
             }
         });
     }
@@ -417,74 +474,78 @@ class OrderEdit extends Component {
     renderOrders = () => {
         const { orders, customers, status } = this.props;
         const orderStatus = status === 'in-progress' ? 'open' : 'complete';
-        return orders.filter(order => order.status === orderStatus).map(order => {
-            const customer = customers.filter(customer => customer.id === order.customerId)[0];
-            return (
-                <Card
-                    fluid
-                    color="blue"
-                    key={order.id}
-                    className="in-progress-card-wrapper"
-                    header={([
-                        <div key="customer-name" className="order-header">{customer.name}</div>,
-                        <Label
-                            ribbon
-                            color='blue'
-                            key="logged-in"
-                            onTouchTap={e => this.onOpenOrderModal(e, order)}
-                            style={{ position: 'absolute', top: '10px', left: '-15px' }}
-                        >
-                            #{orderNumber(order.id)}
-                        </Label>
-                    ])}
-                    meta={
-                        <div className="customer-info">
-                            <div className="customer-details">
-                                <div className="name">{customer.name}</div>
-                                <div className="address-1">{customer.address.street1}</div>
-                                <div className="address-2">{customer.address.street2}</div>
-                                <div className="address-3">
-                                    {customer.address.city}, {customer.address.state} {customer.address.zip}
+        const ordersToDisplay = this.state.orderSearch.term ? this.state.orderSearch.filteredOrderList : orders;
+        if (ordersToDisplay.length) {
+            return ordersToDisplay.filter(order => order.status === orderStatus).map(order => {
+                const customer = customers.filter(customer => customer.id === order.customerId)[0];
+                return (
+                    <Card
+                        fluid
+                        color="blue"
+                        key={order.id}
+                        className="in-progress-card-wrapper"
+                        header={([
+                            <div key="customer-name" className="order-header">{customer.name}</div>,
+                            <Label
+                                ribbon
+                                color='blue'
+                                key="logged-in"
+                                onTouchTap={e => this.onOpenOrderModal(e, order)}
+                                style={{ position: 'absolute', top: '10px', left: '-15px' }}
+                            >
+                                #{orderNumber(order.id)}
+                            </Label>
+                        ])}
+                        meta={
+                            <div className="customer-info">
+                                <div className="customer-details">
+                                    <div className="name">{customer.name}</div>
+                                    <div className="address-1">{customer.address.street1}</div>
+                                    <div className="address-2">{customer.address.street2}</div>
+                                    <div className="address-3">
+                                        {customer.address.city}, {customer.address.state} {customer.address.zip}
+                                    </div>
+                                </div>
+                                <div className="email-phone">
+                                    <div className="email">{customer.email}</div>
+                                    <div className="phone">{customer.phone}</div>
                                 </div>
                             </div>
-                            <div className="email-phone">
-                                <div className="email">{customer.email}</div>
-                                <div className="phone">{customer.phone}</div>
-                            </div>
-                        </div>
-                    }
-                    extra={
-                        <div className="order-content">
-                            <h3 className="number-items">Items ({Object.keys(order.orderItems).length})</h3>
-                            <Divider/>
-                            <div className="order-info">
-                                <div className="order-items">
-                                    {Object.keys(order.orderItems).map(item => (
-                                        <div className="item" key={`item-${order.orderItems[item].id}`}>
-                                            <span className="item-type">{order.orderItems[item].garmentType}: </span>
-                                            <span className="item-name">{order.orderItems[item].name}</span>
+                        }
+                        extra={
+                            <div className="order-content">
+                                <h3 className="number-items">Items ({Object.keys(order.orderItems).length})</h3>
+                                <Divider/>
+                                <div className="order-info">
+                                    <div className="order-items">
+                                        {Object.keys(order.orderItems).map(item => (
+                                            <div className="item" key={`item-${order.orderItems[item].id}`}>
+                                                <span className="item-type">{order.orderItems[item].garmentType}: </span>
+                                                <span className="item-name">{order.orderItems[item].name}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="order-total">
+                                        <div className="price">Total: ${this.renderTotal(order)}</div>
+                                    </div>
+                                    <div className="order-actions">
+                                        <div className="tailor-order">
+                                            <Button
+                                                primary
+                                                content="Edit Order"
+                                                className="process-order-button order-buttons"
+                                                onTouchTap={e => this.onEditOrder(e, order, customer)}
+                                            />
                                         </div>
-                                    ))}
-                                </div>
-                                <div className="order-total">
-                                    <div className="price">Total: ${this.renderTotal(order)}</div>
-                                </div>
-                                <div className="order-actions">
-                                    <div className="tailor-order">
-                                        <Button
-                                            primary
-                                            content="Edit Order"
-                                            className="process-order-button order-buttons"
-                                            onTouchTap={e => this.onEditOrder(e, order, customer)}
-                                        />
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    }
-                />
-            );
-        });
+                        }
+                    />
+                );
+            });
+        }
+        return <div className="no-orders"><i>There Are No Orders to Display</i></div>
     }
 
     render (){
@@ -499,6 +560,33 @@ class OrderEdit extends Component {
                     content={this.props.status === 'in-progress' ? "Orders in Progress" : "Completed Orders"}
                 />
                 <div className="in-progress-wrapper">
+                    {!this.state.edit
+                        && (<div className="search-form">
+                        { this.state.orderSearch.term 
+                            && (<Icon
+                                color="grey" 
+                                name="remove circle" 
+                                size="big"
+                                onTouchTap={this.clearSearch}/>) 
+                        }
+                        <Input
+                            label={
+                                <Dropdown 
+                                    defaultValue='id'
+                                    onChange={this.onSearchTypeChange}
+                                    options={this.state.orderSearch.typeOptions} 
+                                />
+                            }
+                            labelPosition='right'
+                            icon='search' 
+                            iconPosition='left'
+                            placeholder='Search for Order'
+                            size='big'
+                            onChange={this.onSearchChange} 
+                            value={this.state.orderSearch.term}
+                        />
+                        </div>) 
+                    }
                     {this.renderOrders()}
                 </div>
                 <div className="in-progress-footer">

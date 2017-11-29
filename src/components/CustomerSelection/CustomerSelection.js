@@ -65,7 +65,7 @@ class CustomerSelection extends Component {
     onSearchChange = (e) => {
         const value = e.target.value;
         this.setState({
-            customerSearchTerm: value && value.length ? value : null
+            customerSearchTerm: value && value.length ? value : ''
         }, () => {
             this.handleFilter(value);
         })
@@ -128,7 +128,8 @@ class CustomerSelection extends Component {
                             onTouchTap={this.clearSearch}/>) 
                     }
                     <Input
-                        icon='search'
+                        icon='search' 
+                        iconPosition='left'
                         placeholder='Search for Customer'
                         size='huge'
                         onChange={this.onSearchChange} 
